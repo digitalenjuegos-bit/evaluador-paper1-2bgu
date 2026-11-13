@@ -180,6 +180,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .hidden{display:none !important}
+.btn[hidden]{display:none !important}
 .print-head{display:none}
 
 @media print{
@@ -231,7 +232,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
       <div class="err" id="welcomeErr"></div>
       <div class="btn-row">
         <button class="btn green" id="btnComenzar" disabled>Comenzar</button>
-        <span class="small">Un solo intento por estudiante. No hay temporizador.</span>
+        <span class="small" id="intentosInfo">No hay temporizador.</span>
       </div>
     </div>
   </section>
@@ -282,9 +283,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
           <p class="small" id="resDetalle"></p>
         </div>
       </div>
-      <div class="banner ok" id="saveBanner" style="margin-top:14px">Resultado guardado. Ya quedó registrado tu intento.</div>
+      <div class="banner ok" id="saveBanner" style="margin-top:14px">Resultado guardado.</div>
       <div class="btn-row no-print">
         <button class="btn" id="btnPrint">Imprimir / Guardar PDF</button>
+        <button class="btn green" id="btnRetry" hidden>Hacer un nuevo intento</button>
       </div>
     </div>
 
@@ -370,6 +372,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
         <button class="btn small" id="btnSaveNum">Guardar número</button>
         <span class="small" id="cfgNumMsg"></span>
       </div>
+      <div class="cfgrow" style="margin-top:12px">
+        <div class="field">
+          <label for="cfgIntentos">Intentos por estudiante (0 = sin límite)</label>
+          <input type="number" id="cfgIntentos" min="0" max="20" step="1" value="0">
+        </div>
+        <button class="btn small" id="btnSaveIntentos">Guardar intentos</button>
+        <span class="small" id="cfgIntentosMsg"></span>
+      </div>
     </div>
 
     <div class="panel-sec">
@@ -388,6 +398,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
             <option value="2BGU C">2BGU C</option>
           </select>
         </div>
+        <div class="field">
+          <label for="fVista">Mostrar</label>
+          <select id="fVista">
+            <option value="todos">Todos los intentos</option>
+            <option value="mejor">Mejor intento por estudiante</option>
+            <option value="ultimo">Último intento por estudiante</option>
+          </select>
+        </div>
         <button class="btn small ghost" id="btnRefresh">Actualizar</button>
       </div>
       <div class="tablewrap">
@@ -396,6 +414,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
             <tr>
               <th>Nombre</th>
               <th>Paralelo</th>
+              <th>Intento</th>
               <th>Nota</th>
               <th>Exactas</th>
               <th>Fecha</th>
@@ -482,6 +501,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
     cloudReady: Promise.resolve(),
     abierto: true,
     numPreguntas: 8,
+    maxIntentos: 0,
+    intentosUsados: 0,
     nube: false,
     nombre: "",
     paralelo: "",
@@ -656,10 +677,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 
   function loadCloudState(){
     var cfgLocal = lsGet(LS_CFG, null);
-    if (cfgLocal){
-      S.abierto = cfgLocal.abierto !== false;
-      S.numPreguntas = clampInt(cfgLocal.numPreguntas, 4, 20, 8);
-    }
+    if (cfgLocal) applyCfg(cfgLocal);
     S.localEntregas = lsGet(LS_ENT, {}) || {};
 
     if (!S.cloudOn || !S.db){
@@ -674,9 +692,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
       var cfg = res[0], ent = res[1];
       S.nube = cfg.ok || ent.ok;
       if (cfg.ok && cfg.val && typeof cfg.val === "object"){
-        S.abierto = cfg.val.abierto !== false;
-        S.numPreguntas = clampInt(cfg.val.numPreguntas, 4, 20, 8);
-        lsSet(LS_CFG, { abierto: S.abierto, numPreguntas: S.numPreguntas });
+        applyCfg(cfg.val);
+        lsSet(LS_CFG, cfgObj());
       }
       if (ent.ok && ent.val && typeof ent.val === "object"){
         S.cloudEntregas = ent.val;
@@ -684,26 +701,67 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
     });
   }
 
+  function applyCfg(c){
+    if (!c || typeof c !== "object") return;
+    S.abierto = c.abierto !== false;
+    S.numPreguntas = clampInt(c.numPreguntas, 4, 20, 8);
+    S.maxIntentos = clampInt(c.maxIntentos, 0, 20, 0);
+  }
+
+  function cfgObj(){
+    return { abierto: S.abierto, numPreguntas: S.numPreguntas, maxIntentos: S.maxIntentos };
+  }
+
+  function saveCfg(okMsg){
+    lsSet(LS_CFG, cfgObj());
+    if (!S.cloudOn || !S.db){
+      toast("Configuración guardada en este dispositivo. Sin conexión con la nube.");
+      return;
+    }
+    var data = cfgObj();
+    data.updatedAt = new Date().toISOString();
+    fbSet(ROOT + "/config", data).then(function(){
+      toast(okMsg);
+    }).catch(function(){
+      toast("No se pudo guardar en la nube. Se guardó localmente.");
+    });
+  }
+
   /* ---------------- DATOS ---------------- */
 
-  function allEntregasMap(){
+  /* Devuelve todos los intentos (nube + dispositivo), sin duplicados,
+     con el número de intento calculado por estudiante en orden cronológico. */
+  function allEntregasList(){
     var map = {};
-    var local = S.localEntregas || {};
-    Object.keys(local).forEach(function(k){
-      var v = local[k];
-      if (!v) return;
-      var nk = normKey(v.nombreKey || v.nombre);
-      if (nk) map[nk] = Object.assign({}, v, { _key: "local:" + nk, _origen: "local" });
-    });
-    var cloud = S.cloudEntregas || {};
-    Object.keys(cloud).forEach(function(k){
-      var v = cloud[k];
+    function add(v, key, origen){
       if (!v) return;
       var nk = normKey(v.nombreKey || v.nombre);
       if (!nk) return;
-      map[nk] = Object.assign({}, v, { _key: k, _origen: "nube" });
+      var id = nk + "|" + (v.fecha || key);
+      map[id] = Object.assign({}, v, { nombreKey: nk, _key: key, _origen: origen });
+    }
+    var local = S.localEntregas || {};
+    Object.keys(local).forEach(function(k){ add(local[k], "local:" + k, "local"); });
+    var cloud = S.cloudEntregas || {};
+    Object.keys(cloud).forEach(function(k){ add(cloud[k], k, "nube"); });
+
+    var list = Object.keys(map).map(function(k){ return map[k]; });
+    list.sort(function(a, b){ return String(a.fecha || "").localeCompare(String(b.fecha || "")); });
+    var cont = {};
+    list.forEach(function(e){
+      cont[e.nombreKey] = (cont[e.nombreKey] || 0) + 1;
+      e._intento = cont[e.nombreKey];
     });
-    return map;
+    return list;
+  }
+
+  function intentosDe(nk){
+    if (!nk) return 0;
+    return allEntregasList().filter(function(e){ return e.nombreKey === nk; }).length;
+  }
+
+  function puedeIntentar(){
+    return S.maxIntentos === 0 || S.intentosUsados < S.maxIntentos;
   }
 
   function fmtFecha(iso){
@@ -750,18 +808,24 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 
     closed.classList.toggle("show", bancoOk && !S.abierto);
 
-    S.yaEntrego = false;
-    if (S.nombreKey){
-      var map = allEntregasMap();
-      S.yaEntrego = !!map[S.nombreKey];
-    }
+    S.intentosUsados = intentosDe(S.nombreKey);
+    S.yaEntrego = !!S.nombreKey && !puedeIntentar();
     if (S.yaEntrego){
       gate.className = "banner show";
-      gate.textContent = "Ya registraste tu intento en esta actividad. Solo se permite una entrega por estudiante. Si crees que se trata de un error, avisa al docente.";
+      gate.textContent = "Ya usaste " + (S.maxIntentos === 1 ? "tu intento" : "tus " + S.maxIntentos + " intentos") +
+        " en esta actividad. Si crees que se trata de un error, avisa al docente.";
+    } else if (S.nombreKey && S.intentosUsados > 0){
+      gate.className = "banner show";
+      gate.textContent = "Llevas " + S.intentosUsados + (S.intentosUsados === 1 ? " intento registrado. " : " intentos registrados. ") +
+        (S.maxIntentos === 0 ? "Puedes hacer otro." : "Te quedan " + (S.maxIntentos - S.intentosUsados) + ".");
     } else {
       gate.className = "banner";
       gate.textContent = "";
     }
+
+    $("#intentosInfo").textContent = (S.maxIntentos === 0 ? "Intentos sin límite." :
+      (S.maxIntentos === 1 ? "Un solo intento por estudiante." : S.maxIntentos + " intentos por estudiante.")) +
+      " No hay temporizador.";
 
     var bloqueado = !bancoOk || !S.nombre || !S.abierto || S.yaEntrego;
     startBtn.disabled = bloqueado;
@@ -777,7 +841,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
     } else if (!S.nombre){
       startBtn.textContent = "Selecciona tu nombre para comenzar";
     } else if (S.yaEntrego){
-      startBtn.textContent = "Intento ya registrado";
+      startBtn.textContent = "Sin intentos disponibles";
     } else {
       startBtn.textContent = "Comenzar";
     }
@@ -987,6 +1051,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
       nombre: S.nombre,
       paralelo: S.paralelo,
       nombreKey: S.nombreKey,
+      intento: S.intentosUsados + 1,
       nota: nota,
       exactas: exactas,
       total: total,
@@ -1007,7 +1072,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
     $("#resNota").textContent = Number(entry.nota).toFixed(1);
     $("#resNombre").textContent = entry.nombre + (entry.paralelo ? " · " + entry.paralelo : "");
     $("#resResumen").textContent = "Coincidencias exactas: " + entry.exactas + " de " + total + " (" + pct + "%).";
-    $("#resDetalle").textContent = "Duración de la calibración: " + Math.round(entry.durSeg / 60) + " min aproximadamente. Un solo intento por estudiante.";
+    $("#resDetalle").textContent = "Duración de la calibración: " + Math.round(entry.durSeg / 60) + " min aproximadamente. Intento " + (entry.intento || 1) +
+      (S.maxIntentos === 0 ? " (sin límite de intentos)." : " de " + S.maxIntentos + ".");
     $("#saveBanner").textContent = "Guardando el resultado...";
 
     $("#resTabla").innerHTML = entry.detalles.map(function(d){
@@ -1059,9 +1125,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 
   function saveEntry(entry){
     var local = lsGet(LS_ENT, {}) || {};
-    local[entry.nombreKey] = entry;
+    local[entry.nombreKey + "_" + Date.now()] = entry;
     lsSet(LS_ENT, local);
     S.localEntregas = local;
+    S.intentosUsados = intentosDe(S.nombreKey);
+    $("#btnRetry").hidden = !(S.abierto && puedeIntentar());
 
     if (!S.cloudOn || !S.db){
       $("#saveBanner").textContent = "Resultado guardado en este dispositivo. La nube no estaba disponible; el docente puede recuperarlo desde el panel.";
@@ -1069,7 +1137,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
     }
 
     fbPush(ROOT + "/entregas", entry).then(function(key){
-      $("#saveBanner").textContent = "Resultado guardado. Ya quedó registrado tu intento.";
+      $("#saveBanner").textContent = "Resultado guardado. Quedó registrado tu intento " + (entry.intento || 1) + ".";
       if (!S.cloudEntregas) S.cloudEntregas = {};
       S.cloudEntregas[key || ("local_" + Date.now())] = entry;
     }).catch(function(){
@@ -1116,7 +1184,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   function panelLoad(){
     $("#panelCloud").textContent = "Consultando la nube...";
     $("#panelEstado").textContent = "Consultando...";
-    $("#panelTbody").innerHTML = '<tr><td colspan="6" class="small">Cargando entregas...</td></tr>';
+    $("#panelTbody").innerHTML = '<tr><td colspan="7" class="small">Cargando entregas...</td></tr>';
     $("#panelCount").textContent = "";
 
     var cfgP = Promise.resolve({ ok: false });
@@ -1133,9 +1201,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
       S.nube = nubeOk;
 
       if (cfg.ok && cfg.val && typeof cfg.val === "object"){
-        S.abierto = cfg.val.abierto !== false;
-        S.numPreguntas = clampInt(cfg.val.numPreguntas, 4, 20, 8);
-        lsSet(LS_CFG, { abierto: S.abierto, numPreguntas: S.numPreguntas });
+        applyCfg(cfg.val);
+        lsSet(LS_CFG, cfgObj());
       }
       if (ent.ok){
         S.cloudEntregas = (ent.val && typeof ent.val === "object") ? ent.val : {};
@@ -1159,9 +1226,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
       $("#panelEstado").textContent = S.abierto ? "Abierta" : "Cerrada";
       $("#btnToggleOpen").textContent = S.abierto ? "Cerrar actividad" : "Abrir actividad";
       $("#cfgNum").value = String(S.numPreguntas);
+      $("#cfgIntentos").value = String(S.maxIntentos);
 
-      var map = allEntregasMap();
-      S.panelEntregas = Object.keys(map).map(function(k){ return map[k]; });
+      S.panelEntregas = allEntregasList();
       S.panelEntregas.sort(function(a, b){
         return String(b.fecha || "").localeCompare(String(a.fecha || ""));
       });
@@ -1175,11 +1242,26 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
     var txt = ($("#fTexto").value || "").trim().toLowerCase();
     var par = $("#fParalelo").value || "";
 
-    S.panelFiltradas = S.panelEntregas.filter(function(e){
+    var vista = $("#fVista").value || "todos";
+    var base = S.panelEntregas.filter(function(e){
       if (par && e.paralelo !== par) return false;
       if (txt && String(e.nombre || "").toLowerCase().indexOf(txt) === -1) return false;
       return true;
     });
+    if (vista !== "todos"){
+      var pick = {};
+      base.forEach(function(e){
+        var cur = pick[e.nombreKey];
+        if (!cur){ pick[e.nombreKey] = e; return; }
+        if (vista === "mejor"){
+          if (Number(e.nota) > Number(cur.nota) || (Number(e.nota) === Number(cur.nota) && e._intento > cur._intento)) pick[e.nombreKey] = e;
+        } else if (e._intento > cur._intento){
+          pick[e.nombreKey] = e;
+        }
+      });
+      base = base.filter(function(e){ return pick[e.nombreKey] === e; });
+    }
+    S.panelFiltradas = base;
 
     renderPanelTable();
   }
@@ -1187,7 +1269,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   function renderPanelTable(){
     var tbody = $("#panelTbody");
     if (!S.panelFiltradas.length){
-      tbody.innerHTML = '<tr><td colspan="6" class="small">No hay entregas registradas con este filtro.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7" class="small">No hay entregas registradas con este filtro.</td></tr>';
     } else {
       tbody.innerHTML = S.panelFiltradas.map(function(e, i){
         var detalles = e.detalles || [];
@@ -1200,12 +1282,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
         return "<tr>" +
           "<td>" + esc(e.nombre) + origen + "</td>" +
           "<td>" + esc(e.paralelo) + "</td>" +
+          '<td class="num">' + esc(e._intento) + "</td>" +
           '<td class="num">' + Number(e.nota).toFixed(1) + "</td>" +
           '<td class="num">' + esc(e.exactas) + " de " + esc(e.total) + "</td>" +
           "<td>" + esc(fmtFecha(e.fecha)) + "</td>" +
           '<td><button class="btn tiny ghost" data-detalle="' + i + '">Ver desglose</button></td>' +
         "</tr>" +
-        '<tr class="detailrow" id="detrow-' + i + '" hidden><td colspan="6">' +
+        '<tr class="detailrow" id="detrow-' + i + '" hidden><td colspan="7">' +
           '<div class="tablewrap"><table class="tbl"><thead><tr><th>Ítem</th><th>Verbo</th><th>Nota estudiante</th><th>Nota oficial</th><th>Diferencia</th></tr></thead><tbody>' +
           (sub || '<tr><td colspan="5" class="small">Sin detalles.</td></tr>') +
           "</tbody></table></div>" +
@@ -1224,53 +1307,33 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
       });
     }
 
-    $("#panelCount").textContent = S.panelFiltradas.length + " de " + S.panelEntregas.length + " entregas.";
+    $("#panelCount").textContent = S.panelFiltradas.length + " filas mostradas · " + S.panelEntregas.length + " intentos registrados en total.";
   }
 
   function toggleOpen(){
-    var nuevo = !S.abierto;
-    S.abierto = nuevo;
-    lsSet(LS_CFG, { abierto: S.abierto, numPreguntas: S.numPreguntas });
+    S.abierto = !S.abierto;
     $("#panelEstado").textContent = S.abierto ? "Abierta" : "Cerrada";
     $("#btnToggleOpen").textContent = S.abierto ? "Cerrar actividad" : "Abrir actividad";
     refreshWelcome();
-
-    if (!S.cloudOn || !S.db){
-      toast("Estado guardado en este dispositivo. Sin conexión con la nube.");
-      return;
-    }
-    fbSet(ROOT + "/config", {
-      abierto: S.abierto,
-      numPreguntas: S.numPreguntas,
-      updatedAt: new Date().toISOString()
-    }).then(function(){
-      toast(S.abierto ? "Actividad abierta." : "Actividad cerrada.");
-    }).catch(function(){
-      toast("No se pudo guardar en la nube. Se guardó localmente.");
-    });
+    saveCfg(S.abierto ? "Actividad abierta." : "Actividad cerrada.");
   }
 
   function saveNumPreguntas(){
     var n = clampInt($("#cfgNum").value, 4, 20, 8);
     $("#cfgNum").value = String(n);
     S.numPreguntas = n;
-    lsSet(LS_CFG, { abierto: S.abierto, numPreguntas: S.numPreguntas });
     $("#guiaN").textContent = String(S.numPreguntas);
     $("#cfgNumMsg").textContent = "Guardado: " + n + " preguntas.";
+    saveCfg("Número de preguntas guardado en la nube.");
+  }
 
-    if (!S.cloudOn || !S.db){
-      toast("Número guardado en este dispositivo. Sin conexión con la nube.");
-      return;
-    }
-    fbSet(ROOT + "/config", {
-      abierto: S.abierto,
-      numPreguntas: S.numPreguntas,
-      updatedAt: new Date().toISOString()
-    }).then(function(){
-      toast("Número de preguntas guardado en la nube.");
-    }).catch(function(){
-      toast("No se pudo guardar en la nube. Se guardó localmente.");
-    });
+  function saveIntentos(){
+    var n = clampInt($("#cfgIntentos").value, 0, 20, 0);
+    $("#cfgIntentos").value = String(n);
+    S.maxIntentos = n;
+    $("#cfgIntentosMsg").textContent = "Guardado: " + (n === 0 ? "sin límite." : n + (n === 1 ? " intento." : " intentos."));
+    refreshWelcome();
+    saveCfg("Límite de intentos guardado en la nube.");
   }
 
   function csvCampo(v){
@@ -1285,11 +1348,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
       toast("No hay entregas para exportar con el filtro actual.");
       return;
     }
-    var lineas = [["Nombre", "Paralelo", "Nota", "Exactas", "Total", "Fecha"].map(csvCampo).join(",")];
+    var lineas = [["Nombre", "Paralelo", "Intento", "Nota", "Exactas", "Total", "Fecha"].map(csvCampo).join(",")];
     filas.forEach(function(e){
       lineas.push([
         e.nombre,
         e.paralelo,
+        e._intento,
         Number(e.nota).toFixed(1),
         e.exactas,
         e.total,
@@ -1349,6 +1413,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 
   function bind(){
     $("#selNombre").addEventListener("change", setStudent);
+    $("#selNombre").addEventListener("input", setStudent);
     $("#btnComenzar").addEventListener("click", startActivity);
 
     $("#btnContinuarGuia").addEventListener("click", function(){
@@ -1377,6 +1442,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
     $("#btnPanelClose").addEventListener("click", function(){ closeModal("mPanel"); });
     $("#btnToggleOpen").addEventListener("click", toggleOpen);
     $("#btnSaveNum").addEventListener("click", saveNumPreguntas);
+    $("#btnSaveIntentos").addEventListener("click", saveIntentos);
+    $("#cfgIntentos").addEventListener("keydown", function(ev){
+      if (ev.key === "Enter"){ ev.preventDefault(); saveIntentos(); }
+    });
+    $("#fVista").addEventListener("change", applyPanelFilters);
+    $("#btnRetry").addEventListener("click", function(){
+      $("#btnRetry").hidden = true;
+      refreshWelcome();
+      showScreen("welcome");
+    });
     $("#btnRefresh").addEventListener("click", panelLoad);
     $("#fTexto").addEventListener("input", applyPanelFilters);
     $("#fParalelo").addEventListener("change", applyPanelFilters);
@@ -1431,8 +1506,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
         return;
       }
       if (S.yaEntrego){
-        btn.textContent = "Intento ya registrado";
-        err.textContent = "Ya existe una entrega con tu nombre. Solo se permite un intento.";
+        btn.textContent = "Sin intentos disponibles";
+        err.textContent = "Ya usaste los intentos permitidos para esta actividad.";
         err.classList.add("show");
         return;
       }
