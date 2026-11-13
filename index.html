@@ -787,7 +787,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
     var sel = $("#selNombre");
     S.nombre = sel.value || "";
     if (S.nombre){
-      var opt = sel.options[sel.selectedIndex];
+      var opt = sel.options ? sel.options[sel.selectedIndex] : undefined;
       S.paralelo = opt && opt.parentNode && opt.parentNode.tagName === "OPTGROUP" ? opt.parentNode.label : "";
       S.nombreKey = normKey(S.nombre);
       $("#headerPill").textContent = S.paralelo ? (S.paralelo + " · examinador") : "Rol: examinador";
