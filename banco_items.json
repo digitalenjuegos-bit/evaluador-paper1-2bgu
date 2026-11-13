@@ -1,0 +1,481 @@
+{
+  "bandas": {
+    "diez": [
+      {
+        "rango": "0",
+        "desc": "No cumple los requisitos de la banda 1-2: no hay contenido económico válido ni comprensión del tema."
+      },
+      {
+        "rango": "1-2",
+        "desc": "Comprensión muy limitada. Conocimiento teórico escaso o con errores graves. Se atiende solo una parte de la pregunta o se responde en términos muy generales. Uso nulo o casi nulo de ejemplos."
+      },
+      {
+        "rango": "3-4",
+        "desc": "Comprensión limitada. Conocimiento superficial o con imprecisiones importantes. Una parte de la pregunta se trata con más detalle que la otra. Uso escaso de ejemplos."
+      },
+      {
+        "rango": "5-6",
+        "desc": "Comprensión adecuada. Conocimiento suficiente y en general correcto. Ambas partes de la pregunta se atienden, aunque no con la misma profundidad. Algunos ejemplos pertinentes."
+      },
+      {
+        "rango": "7-8",
+        "desc": "Buena comprensión. Buen dominio de la teoría y terminología correcta. Ambas partes se atienden y se usan buenos ejemplos, con vacíos menores."
+      },
+      {
+        "rango": "9-10",
+        "desc": "Comprensión excelente. Conocimiento preciso y terminología económica correcta. Ambas partes se desarrollan a fondo y los ejemplos están integrados en la explicación."
+      }
+    ],
+    "quince": [
+      {
+        "rango": "0",
+        "desc": "No cumple los requisitos de la banda 1-3: no hay contenido económico válido."
+      },
+      {
+        "rango": "1-3",
+        "desc": "Comprensión muy limitada. Análisis prácticamente ausente y errores conceptuales graves. No hay evaluación: solo afirmaciones sin fundamento."
+      },
+      {
+        "rango": "4-6",
+        "desc": "Comprensión limitada. Análisis limitado, en general descriptivo. Evaluación limitada: juicios genéricos sin criterios ni evidencia."
+      },
+      {
+        "rango": "7-9",
+        "desc": "Comprensión adecuada. Análisis adecuado con alguna cadena causal. Evaluación adecuada: reconocimiento de más de una perspectiva, aunque poco ponderada."
+      },
+      {
+        "rango": "10-12",
+        "desc": "Buena comprensión. Buen análisis con relaciones causales claras y uso correcto de teoría. Buena evaluación con juicios fundamentados, aunque con matices sin explorar."
+      },
+      {
+        "rango": "13-15",
+        "desc": "Comprensión excelente. Análisis profundo y bien estructurado. Evaluación matizada con criterios explícitos, consideración de plazos y grupos afectados, y juicio final sustentado."
+      }
+    ]
+  },
+  "items": [
+    {
+      "id": "ex01",
+      "unidad": "Introducción a la economía",
+      "tema": "Escasez y elección",
+      "verbo": "Explica",
+      "consigna": "Explica la relación entre escasez, elección y costo de oportunidad en una economía. [10]",
+      "puntaje_max": 10,
+      "respuesta_estudiante": "La escasez es cuando no hay suficientes recursos para satisfacer todas las necesidades de las personas. Por ejemplo, en un país no alcanza el dinero para construir todos los hospitales y todas las escuelas al mismo tiempo. Como los recursos son limitados, las personas y el gobierno tienen que elegir. Elegir significa decidir qué se va a producir y qué se va a dejar de producir.\n\nCuando elegimos una cosa estamos dejando de lado otra, y eso es el costo de oportunidad. Por ejemplo, si el gobierno decide construir un hospital, el costo de oportunidad es la escuela que no se construyó. La escasez es muy importante en economía porque obliga a las familias, a las empresas y al Estado a tomar decisiones todos los días.\n\nTambién hay que decir que la escasez no es lo mismo que la pobreza, aunque a veces se confunden. Un país rico también tiene escasez porque sus recursos no son infinitos. En conclusión, la escasez obliga a elegir y toda elección tiene un costo de oportunidad.",
+      "esquema": [
+        "Escasez como desequilibrio entre necesidades ilimitadas y recursos limitados.",
+        "La escasez es universal y no equivale a pobreza: también existe en países de ingreso alto.",
+        "Elección: selección de una alternativa de uso de recursos implica renunciar a otras.",
+        "Costo de oportunidad: valor de la mejor alternativa sacrificada, no cualquier alternativa.",
+        "Ejemplo aplicado a una decisión de gobierno, empresa o familia.",
+        "Vínculo explícito y desarrollado entre los tres conceptos."
+      ],
+      "banda_oficial": "3-4",
+      "nota_oficial": 4,
+      "justificacion": "Define escasez y elección de forma comprensible y usa un ejemplo pertinente, así que hay contenido válido. Sin embargo, reduce la escasez a que 'no alcanza el dinero', que es una restricción financiera y no la relación entre necesidades ilimitadas y recursos limitados. El costo de oportunidad se ilustra con un ejemplo pero no se define como el valor de la mejor alternativa sacrificada. La respuesta es descriptiva, con una cadena causal débil y sin desarrollo del tercer concepto. Corresponde a la banda 3-4: comprensión limitada, con una parte tratada con más detalle que la otra."
+    },
+    {
+      "id": "ex02",
+      "unidad": "Introducción a la economía",
+      "tema": "Costo de oportunidad y frontera de posibilidades de producción",
+      "verbo": "Explica usando un diagrama",
+      "consigna": "Explica usando un diagrama cómo se representa el costo de oportunidad creciente en la frontera de posibilidades de producción. [10]",
+      "puntaje_max": 10,
+      "respuesta_estudiante": "Para explicar el costo de oportunidad creciente uso una frontera de posibilidades de producción. En el eje vertical pongo la cantidad de trigo y en el horizontal la cantidad de maquinaria. La frontera es una curva cóncava hacia afuera, que muestra las combinaciones máximas que se pueden producir con los recursos y la tecnología disponibles.\n\nSi la economía produce solo trigo, está en el punto donde la curva corta el eje vertical. Si quiere producir algo de maquinaria, tiene que mover recursos del trigo a la maquinaria. El primer traslado cuesta poco trigo, pero cada traslado adicional cuesta más trigo que el anterior. Por eso la curva se va haciendo más inclinada. Ese trigo que se sacrifica es el costo de oportunidad de producir más maquinaria.\n\nPor ejemplo, pasar de 0 a 10 unidades de maquinaria cuesta 5 toneladas de trigo, pero pasar de 10 a 20 cuesta 12 toneladas. El costo de oportunidad es creciente porque los recursos no son igual de productivos en las dos actividades.\n\nUn punto dentro de la curva significa que hay desempleo o ineficiencia, y un punto fuera no se puede alcanzar con la tecnología actual.",
+      "esquema": [
+        "Ejes rotulados con los dos bienes.",
+        "Curva cóncava respecto al origen, es decir, curvada hacia afuera.",
+        "Desplazamiento a lo largo de la curva equivale a costo de oportunidad.",
+        "Costo de oportunidad creciente: cada tramo adicional sacrifica más del otro bien.",
+        "Razón del costo creciente: los factores no son homogéneos ni perfectamente transferibles.",
+        "Ejemplo numérico o descripción de tramos con cantidades.",
+        "Lectura de puntos dentro y fuera de la curva."
+      ],
+      "banda_oficial": "7-8",
+      "nota_oficial": 7,
+      "justificacion": "El diagrama implícito está bien descrito: ejes rotulados, curva cóncava y movimiento a lo largo de la curva asociado al costo de oportunidad. El ejemplo numérico refuerza la idea de costo creciente. Falta profundizar la razón económica: se afirma que los recursos no son igual de productivos, pero no se explica que la transferencia sucesiva moviliza factores cada vez menos aptos para la nueva actividad. La referencia a puntos dentro y fuera aparece al final, sin integrarse a la explicación. Banda 7-8: buena comprensión, ambas partes atendidas, con un vacío analítico menor."
+    },
+    {
+      "id": "ex03",
+      "unidad": "Introducción a la economía",
+      "tema": "Frontera de posibilidades de producción",
+      "verbo": "Explica usando un diagrama",
+      "consigna": "Explica usando un diagrama qué representa la frontera de posibilidades de producción y qué indican los puntos situados dentro, sobre y fuera de la curva. [10]",
+      "puntaje_max": 10,
+      "respuesta_estudiante": "La frontera de posibilidades de producción muestra las combinaciones máximas de dos bienes que una economía puede producir si utiliza todos sus recursos de manera eficiente, dada su tecnología.\n\nEn el diagrama, el eje vertical representa bienes de capital y el eje horizontal bienes de consumo. La curva es cóncava respecto al origen porque los factores de producción no son perfectamente transferibles entre las dos actividades. Cada punto de la curva es una combinación eficiente: para producir más de un bien hay que renunciar a una cantidad creciente del otro, y esa renuncia es el costo de oportunidad.\n\nUn punto sobre la curva indica eficiencia productiva, porque no se puede aumentar la producción de un bien sin reducir la del otro. Un punto dentro de la curva indica que hay recursos desempleados o que se usan de forma ineficiente; la economía podría producir más de ambos bienes sin sacrificar nada. Un punto fuera de la curva es inalcanzable con los recursos y la tecnología actuales.\n\nSin embargo, la frontera puede desplazarse hacia afuera si aumenta la cantidad o la calidad de los factores de producción, por ejemplo con más inversión de capital, mejor educación o nueva tecnología. Ese desplazamiento representa crecimiento económico.",
+      "esquema": [
+        "Definición: combinaciones máximas de dos bienes con recursos y tecnología dados.",
+        "Ejes rotulados y curva cóncava respecto al origen.",
+        "Punto sobre la curva: eficiencia productiva.",
+        "Punto dentro de la curva: desempleo o uso ineficiente de recursos.",
+        "Punto fuera de la curva: combinación inalcanzable.",
+        "Costo de oportunidad implícito al moverse sobre la curva.",
+        "Desplazamiento hacia afuera por más o mejores factores, o por tecnología: crecimiento económico."
+      ],
+      "banda_oficial": "9-10",
+      "nota_oficial": 10,
+      "justificacion": "Cumple con las dos partes de la consigna de forma completa y precisa. El diagrama está correctamente descrito: ejes rotulados, curvatura cóncava y justificación de esa forma por la transferibilidad imperfecta de los factores. Los tres tipos de puntos se explican con terminología IB exacta (eficiencia productiva, recursos desempleados, combinación inalcanzable) y se cierra con el desplazamiento de la frontera como crecimiento económico. La terminología es correcta y consistente. Banda 9-10."
+    },
+    {
+      "id": "ex04",
+      "unidad": "Introducción a la economía",
+      "tema": "Factores de producción",
+      "verbo": "Explica",
+      "consigna": "Explica los factores de producción y la remuneración que recibe cada uno. [10]",
+      "puntaje_max": 10,
+      "respuesta_estudiante": "Los factores de producción son los recursos que se usan para producir bienes y servicios. Hay cuatro: la tierra, el trabajo, el capital y la empresa.\n\nLa tierra es todo lo que viene de la naturaleza, como el suelo, el agua y los minerales. El trabajo es el esfuerzo de las personas. El capital es el dinero que se invierte en el negocio, por ejemplo el dinero que un empresario pone para abrir una fábrica. La empresa es la persona que organiza y toma las decisiones.\n\nCada factor recibe un pago. Los trabajadores reciben su sueldo, y los dueños de la tierra reciben una renta. El capital recibe un interés y el empresario recibe una ganancia. Estos pagos son importantes porque de ellos viven las familias.\n\nEn Ecuador la tierra y el trabajo son factores muy importantes, sobre todo en la agricultura. Si no existieran estos factores no se podría producir nada, por eso son la base de la economía.",
+      "esquema": [
+        "Tierra: recursos naturales; remuneración: renta.",
+        "Trabajo: esfuerzo humano; remuneración: salario.",
+        "Capital: bienes de capital, no dinero; remuneración: interés.",
+        "Empresa o capacidad empresarial; remuneración: beneficio.",
+        "Ejemplos pertinentes de cada factor.",
+        "Distinción explícita entre capital físico y capital financiero."
+      ],
+      "banda_oficial": "1-2",
+      "nota_oficial": 2,
+      "justificacion": "La respuesta se limita a enumerar los cuatro factores con una frase cada uno. El error central es conceptual: define el capital como 'el dinero que se invierte', cuando el capital en economía son los bienes de capital (maquinaria, instalaciones, equipo) y el dinero es capital financiero. La segunda parte de la consigna, las remuneraciones, se resuelve con una lista sin explicar por qué cada factor recibe ese pago ni cómo se determinan. No hay cadena causal ni ejemplos desarrollados: la mención a Ecuador es un añadido general. Banda 1-2: comprensión muy limitada y errores graves."
+    },
+    {
+      "id": "ex05",
+      "unidad": "Introducción a la economía",
+      "tema": "Sistemas económicos y economía mixta",
+      "verbo": "Evalúa",
+      "consigna": "Evalúa la medida en que una economía mixta resuelve mejor que una economía de mercado las preguntas de qué, cómo y para quién producir. [15]",
+      "puntaje_max": 15,
+      "respuesta_estudiante": "Una economía de mercado asigna los recursos mediante el mecanismo de precios: cuando la demanda de un bien aumenta, su precio sube y las empresas producen más. Una economía mixta combina ese mecanismo con la intervención del Estado, que produce algunos bienes, regula a las empresas y redistribuye el ingreso mediante impuestos y subsidios.\n\nEn mi opinión la economía mixta resuelve mejor la pregunta de para quién producir, porque el mercado por sí solo tiende a concentrar el ingreso en quienes tienen más recursos. Con impuestos progresivos y gasto público en salud y educación, el Estado puede mejorar la equidad. También corrige fallas de mercado: por ejemplo, una empresa que contamina no paga el costo social de su producción, y la regulación puede obligarla a hacerlo.\n\nSin embargo, la intervención tiene límites. Si el Estado fija precios muy bajos puede generar escasez, y si subsidia demasiado puede desalentar la producción. Además, la burocracia y la corrupción pueden hacer que el gasto público no llegue a quien lo necesita.\n\nEn conclusión, la economía mixta tiende a dar mejores resultados que el mercado puro, sobre todo en equidad y en corrección de externalidades, aunque su éxito depende de la calidad de las instituciones y de que la intervención no sustituya por completo al mecanismo de precios.",
+      "esquema": [
+        "Funciones del mecanismo de precios: señal, incentivo y racionamiento.",
+        "Definición de economía mixta y tipos de intervención estatal.",
+        "Respuesta a qué producir, cómo producirlo y para quién.",
+        "Fallas de mercado que justifican la intervención.",
+        "Límites: fallas de gobierno, burocracia, incentivos distorsionados.",
+        "Consideración de grupos afectados y de plazos.",
+        "Juicio final sobre la medida en que la economía mixta resuelve mejor."
+      ],
+      "banda_oficial": "10-12",
+      "nota_oficial": 11,
+      "justificacion": "Hay buen manejo del mecanismo de precios y de la lógica de la economía mixta, con ejemplos pertinentes de equidad y de externalidades. La evaluación reconoce límites de la intervención, lo que evita una respuesta unilateral. Lo que falta es desarrollo de las preguntas de qué y cómo producir, que quedan mencionadas pero no analizadas, y una ponderación explícita de costos y beneficios: se afirma que la economía mixta 'tiende a dar mejores resultados' sin comparar magnitudes ni plazos. La conclusión es razonable pero poco matizada. Banda 10-12."
+    },
+    {
+      "id": "ex06",
+      "unidad": "Introducción a la economía",
+      "tema": "División del trabajo",
+      "verbo": "Discute",
+      "consigna": "Discute las ventajas y desventajas de una división del trabajo creciente en la producción moderna. [15]",
+      "puntaje_max": 15,
+      "respuesta_estudiante": "La división del trabajo consiste en dividir el proceso productivo en tareas especializadas que realizan distintos trabajadores.\n\nA favor, aumenta la productividad: un trabajador que repite una tarea la hace más rápido y con menos errores, y se reduce el tiempo perdido al cambiar de herramienta. Adam Smith lo mostró con la fábrica de alfileres, donde la especialización multiplicó la producción por trabajador. Además, la especialización permite usar maquinaria especializada y aprovechar economías de escala, lo que reduce el costo medio y puede bajar el precio para los consumidores. También facilita el comercio, porque cada país se especializa en lo que produce con menor costo de oportunidad.\n\nEn contra, la división extrema puede provocar monotonía y alienación: el trabajador deja de entender el producto completo y pierde satisfacción. También genera dependencia entre etapas, de modo que un fallo en una parte de la cadena detiene toda la producción, como ocurrió con la escasez de microchips. Aumenta además el riesgo de desempleo estructural, porque las tareas repetitivas son las más fáciles de automatizar, y puede concentrar el poder de negociación en pocas empresas.\n\nEn conclusión, la división del trabajo aumenta la eficiencia y el nivel de producción, pero sus beneficios dependen de que existan condiciones laborales adecuadas, capacitación y mecanismos de protección para los trabajadores desplazados. En la medida en que esas condiciones se cumplan, el balance es claramente favorable.",
+      "esquema": [
+        "Definición de división del trabajo y especialización.",
+        "Ventajas: destreza, ahorro de tiempo, uso de maquinaria especializada.",
+        "Ventajas: economías de escala y menor costo medio.",
+        "Desventajas: monotonía, alienación y pérdida de satisfacción laboral.",
+        "Desventajas: interdependencia y fragilidad de la cadena productiva.",
+        "Desventajas: riesgo de desempleo estructural por automatización.",
+        "Condiciones que hacen favorable el balance: capacitación y protección laboral.",
+        "Conclusión evaluada con criterios explícitos."
+      ],
+      "banda_oficial": "13-15",
+      "nota_oficial": 14,
+      "justificacion": "Desarrolla argumentos en ambos sentidos con teoría pertinente y evidencia concreta: la fábrica de alfileres para la productividad y la escasez de microchips para la fragilidad de la cadena. La evaluación no se queda en el listado: distingue eficiencia de bienestar laboral, incorpora el costo de oportunidad en la especialización y cierra con una condición explícita ('en la medida en que'). El único margen de mejora es que no distingue con claridad efectos de corto y largo plazo ni cuantifica la magnitud relativa de las desventajas. Banda 13-15."
+    },
+    {
+      "id": "ex07",
+      "unidad": "Introducción a la economía",
+      "tema": "Sostenibilidad",
+      "verbo": "Evalúa",
+      "consigna": "Evalúa si el uso intensivo de los recursos naturales para aumentar la producción actual es compatible con la sostenibilidad. [15]",
+      "puntaje_max": 15,
+      "respuesta_estudiante": "La sostenibilidad significa que las generaciones futuras puedan satisfacer sus necesidades igual que las actuales. Si hoy usamos demasiado petróleo o deforestamos para producir más, estamos dejando menos recursos a nuestros hijos.\n\nPor un lado, el uso intensivo de recursos permite producir más bienes y servicios, generar empleo y aumentar el ingreso de las familias. En Ecuador, la explotación petrolera financia una parte importante del presupuesto del Estado, y sin esos ingresos no se podría pagar salud y educación. Entonces la producción actual también ayuda al bienestar.\n\nPor otro lado, la contaminación y la deforestación afectan la salud de las personas y reducen la capacidad de producir alimentos en el futuro. Un río contaminado no se puede usar para riego y el suelo erosionado tarda muchos años en recuperarse.\n\nEn conclusión, creo que el uso intensivo de recursos no es compatible con la sostenibilidad si se hace sin control, porque se destruyen recursos que no se pueden recuperar. Por eso el Estado debería cuidar el medio ambiente y las empresas deberían producir de manera más responsable.",
+      "esquema": [
+        "Definición de sostenibilidad y equidad intergeneracional.",
+        "Distinción entre recursos renovables y no renovables.",
+        "Beneficios de la producción actual: ingreso, empleo, gasto social.",
+        "Costos: agotamiento, contaminación y pérdida de capacidad productiva futura.",
+        "Externalidades negativas y costo social.",
+        "Criterios de evaluación: costo de oportunidad, plazos, grupos afectados.",
+        "Juicio final sustentado en criterios."
+      ],
+      "banda_oficial": "4-6",
+      "nota_oficial": 5,
+      "justificacion": "Presenta las dos caras del dilema y usa un ejemplo nacional pertinente, lo que da contenido válido. El problema está en la evaluación: la conclusión se apoya en 'creo que' y en recomendaciones generales ('debería cuidar el medio ambiente'), sin criterios explícitos ni comparación de costos y beneficios. No se distingue entre recursos renovables y no renovables, no se habla de costo social ni de externalidades, y no se identifican grupos afectados ni plazos. El análisis queda en descripción de efectos. Banda 4-6: evaluación limitada."
+    },
+    {
+      "id": "ex08",
+      "unidad": "Introducción a la economía",
+      "tema": "Bienes y servicios",
+      "verbo": "Discute",
+      "consigna": "Discute la afirmación: 'Los bienes libres no tienen costo de oportunidad y por eso no necesitan ser administrados'. [15]",
+      "puntaje_max": 15,
+      "respuesta_estudiante": "Un bien libre es aquel que no es escaso, como el aire o la luz del sol, y por eso no tiene precio. Un bien económico, en cambio, es escaso y requiere recursos para producirlo.\n\nLa afirmación es parcialmente correcta: si un bien es realmente libre y su uso no reduce su disponibilidad para otros, no hay costo de oportunidad, porque usarlo no obliga a sacrificar otra cosa.\n\nSin embargo, el ejemplo del aire muestra el límite de la afirmación. El aire limpio puede volverse escaso cuando las fábricas y los vehículos lo contaminan. En ese momento deja de ser un bien libre y aparece un costo de oportunidad: respirar aire limpio implica renunciar a producir con tecnologías contaminantes, o gastar en filtros y en salud. Lo mismo ocurre con el agua de un río, que puede ser libre para una comunidad y escasa para otra si se desvía para riego.\n\nTambién hay que considerar que los bienes libres pueden ser sobreexplotados si nadie los administra. Los recursos de propiedad común tienden a agotarse porque cada usuario recibe todo el beneficio privado y soporta solo una parte del costo de la degradación.\n\nEn conclusión, la afirmación es válida para bienes libres en sentido estricto, pero en la práctica muchos bienes que parecían libres se vuelven escasos por el uso colectivo, y entonces sí requieren administración.",
+      "esquema": [
+        "Definición de bien libre y de bien económico.",
+        "La escasez como condición del costo de oportunidad.",
+        "Casos en que un bien libre se vuelve económicamente escaso.",
+        "Recursos de propiedad común y riesgo de sobreexplotación.",
+        "Instrumentos de administración: regulación, derechos de propiedad, precios.",
+        "Argumentos a favor y en contra de la afirmación.",
+        "Conclusión evaluada sobre su validez parcial."
+      ],
+      "banda_oficial": "7-9",
+      "nota_oficial": 9,
+      "justificacion": "La respuesta distingue bien libre de bien económico y construye un argumento sólido: acepta la parte válida de la afirmación y la cuestiona con el caso del aire limpio y del agua. La idea de propiedad común agrega profundidad analítica. Lo que falta es una evaluación más explícita del segundo componente de la afirmación, la necesidad de administrar: se menciona la sobreexplotación pero no se comparan instrumentos ni se reconocen sus límites. La conclusión es correcta pero poco desarrollada. Banda 7-9."
+    },
+    {
+      "id": "ex09",
+      "unidad": "Microeconomía",
+      "tema": "Ley de demanda",
+      "verbo": "Explica",
+      "consigna": "Explica la ley de la demanda y dos factores que provocan un desplazamiento de la curva de demanda. [10]",
+      "puntaje_max": 10,
+      "respuesta_estudiante": "La ley de la demanda dice que cuando el precio de un bien sube, la cantidad demandada baja, y cuando el precio baja, la cantidad demandada sube. Esto pasa porque los consumidores compran menos cuando está caro y buscan otras opciones.\n\nLa curva de demanda tiene pendiente negativa porque muestra esa relación inversa entre precio y cantidad.\n\nHay varios factores que desplazan la curva de demanda. Uno es el ingreso: si las personas ganan más dinero, compran más de casi todos los bienes, y la curva se desplaza hacia la derecha. Otro son los gustos: si se pone de moda un producto, la demanda aumenta. También influye el precio de los bienes sustitutos.\n\nPor ejemplo, si el precio de la gasolina sube, la cantidad demandada de gasolina disminuye, y la curva se desplaza hacia la izquierda. Eso es una ley importante porque ayuda a las empresas a decidir cuánto producir y a qué precio vender.",
+      "esquema": [
+        "Enunciado correcto de la ley de la demanda: relación inversa entre precio y cantidad demandada.",
+        "Pendiente negativa de la curva y su lectura.",
+        "Distinción entre movimiento a lo largo de la curva y desplazamiento.",
+        "Factor 1: ingreso, con distinción entre bien normal e inferior.",
+        "Factor 2: gustos y preferencias, o precio de bienes relacionados.",
+        "Ejemplo correcto de desplazamiento, sin confundirlo con un cambio de precio.",
+        "Aclaración de que un cambio del precio del propio bien no desplaza la curva."
+      ],
+      "banda_oficial": "3-4",
+      "nota_oficial": 3,
+      "justificacion": "El enunciado de la ley de la demanda y el papel de la pendiente negativa son correctos, y menciona dos determinantes válidos. Sin embargo, el ejemplo final comete el error clásico: un aumento del precio de la gasolina provoca un movimiento a lo largo de la curva, no un desplazamiento hacia la izquierda. Esa confusión afecta el núcleo de la segunda parte de la consigna, que pide precisamente desplazamientos. La distinción entre movimiento y desplazamiento nunca se explicita. Banda 3-4: comprensión limitada con una imprecisión importante."
+    },
+    {
+      "id": "ex10",
+      "unidad": "Microeconomía",
+      "tema": "Desplazamientos y movimientos a lo largo de la curva",
+      "verbo": "Explica usando un diagrama",
+      "consigna": "Explica usando un diagrama la diferencia entre un movimiento a lo largo de la curva de demanda y un desplazamiento de la curva de demanda. [10]",
+      "puntaje_max": 10,
+      "respuesta_estudiante": "En el diagrama pongo el precio en el eje vertical y la cantidad en el eje horizontal. La curva de demanda inicial se llama D1 y tiene pendiente negativa.\n\nUn movimiento a lo largo de la curva ocurre cuando cambia el precio del propio bien. Si el precio baja de P1 a P2, la cantidad demandada aumenta de Q1 a Q2, pero la curva sigue siendo la misma. Ese movimiento refleja la ley de la demanda: a menor precio, mayor cantidad demandada, siempre que todo lo demás permanezca constante.\n\nUn desplazamiento de la curva ocurre cuando cambia un factor distinto del precio del bien. Si aumenta el ingreso de los consumidores, la demanda se desplaza hacia la derecha, de D1 a D2, y a cada precio se demanda una cantidad mayor. En el diagrama, la nueva curva queda a la derecha de la anterior, y el nuevo equilibrio del mercado se alcanza con un precio y una cantidad mayores, aunque el precio final depende de la pendiente de la oferta.\n\nLo importante es no confundirlos: un cambio de precio no desplaza la curva, y un cambio de ingreso no provoca un movimiento a lo largo de la curva.",
+      "esquema": [
+        "Ejes rotulados: precio y cantidad.",
+        "Curva de demanda inicial identificada (D1).",
+        "Movimiento a lo largo: causa, cambio del precio del propio bien.",
+        "Cambio de P1 a P2 y de Q1 a Q2 sobre la misma curva.",
+        "Desplazamiento: causa, cambio en un determinante distinto del precio.",
+        "Desplazamiento a la derecha por aumento del ingreso u otro determinante.",
+        "Conclusión que evita confundir ambos fenómenos."
+      ],
+      "banda_oficial": "7-8",
+      "nota_oficial": 8,
+      "justificacion": "El diagrama implícito está correctamente descrito: ejes rotulados, curva D1, puntos P1 Q1 y P2 Q2, y nueva curva a la derecha. La distinción conceptual es clara y se refuerza al final con la advertencia sobre el error típico. Falta cubrir el desplazamiento hacia la izquierda y aclarar que el desplazamiento se mide manteniendo constante el precio, no solo 'a cada precio'. La referencia al nuevo equilibrio agrega contenido que no era exigido, pero no perjudica. Banda 7-8."
+    },
+    {
+      "id": "ex11",
+      "unidad": "Microeconomía",
+      "tema": "Equilibrio de mercado",
+      "verbo": "Explica usando un diagrama",
+      "consigna": "Explica usando un diagrama cómo un aumento simultáneo de la demanda y de la oferta afecta el precio y la cantidad de equilibrio. [10]",
+      "puntaje_max": 10,
+      "respuesta_estudiante": "El equilibrio de mercado se alcanza donde la curva de demanda y la curva de oferta se cruzan. En el diagrama, el eje vertical es el precio y el horizontal es la cantidad. El punto donde se cruzan la demanda y la oferta determina el precio de equilibrio y la cantidad de equilibrio.\n\nSi la demanda aumenta, la curva de demanda se desplaza hacia la derecha. Si la oferta también aumenta, la curva de oferta se desplaza hacia la derecha. Cuando las dos curvas se desplazan hacia la derecha, el nuevo cruce queda a la derecha del anterior. Eso significa que la cantidad de equilibrio aumenta.\n\nCon el precio pasa algo parecido: como la oferta aumenta, hay más producto en el mercado y el precio baja. Entonces, si aumentan la demanda y la oferta al mismo tiempo, la cantidad de equilibrio sube y el precio de equilibrio baja.\n\nUn ejemplo es el mercado de computadoras: la tecnología mejora y baja el costo de producción, y al mismo tiempo más personas quieren una computadora. La cantidad vendida aumenta y el precio baja.",
+      "esquema": [
+        "Equilibrio como intersección de las curvas de oferta y demanda.",
+        "Ejes rotulados y curvas identificadas.",
+        "Aumento de la demanda: desplazamiento hacia la derecha.",
+        "Aumento de la oferta: desplazamiento hacia la derecha.",
+        "Efecto sobre la cantidad: aumenta de manera inequívoca.",
+        "Efecto sobre el precio: indeterminado, depende de la magnitud relativa de los desplazamientos.",
+        "Conclusión correcta según las magnitudes, con ejemplo coherente."
+      ],
+      "banda_oficial": "5-6",
+      "nota_oficial": 5,
+      "justificacion": "El diagrama implícito está bien construido y describe correctamente el equilibrio como intersección. También acierta el efecto sobre la cantidad, que aumenta sin ambigüedad. El error está en el precio: con ambos desplazamientos hacia la derecha, el efecto es indeterminado y depende de cuál desplazamiento es mayor. La respuesta afirma que el precio baja siempre y el ejemplo de las computadoras refuerza esa conclusión incorrecta. Banda 5-6: comprensión adecuada, pero una de las dos variables se resuelve mal."
+    },
+    {
+      "id": "ex12",
+      "unidad": "Microeconomía",
+      "tema": "Elasticidad precio de la demanda",
+      "verbo": "Explica",
+      "consigna": "Explica el concepto de elasticidad precio de la demanda y dos factores que la determinan. [10]",
+      "puntaje_max": 10,
+      "respuesta_estudiante": "La elasticidad precio de la demanda mide cuánto cambia la cantidad demandada cuando cambia el precio del bien. Se calcula como el cambio porcentual de la cantidad demandada dividido para el cambio porcentual del precio. Como la ley de la demanda indica una relación inversa, el resultado suele expresarse en valor absoluto.\n\nSi el valor es mayor que uno, la demanda es elástica: la cantidad responde más que proporcionalmente al precio, como ocurre con los bienes que tienen muchos sustitutos. Si el valor es menor que uno, la demanda es inelástica: la cantidad responde menos que proporcionalmente, como sucede con los alimentos básicos. Si el valor es exactamente uno, la demanda es unitaria y el ingreso total del productor no cambia ante una variación del precio.\n\nDos factores que la determinan son la disponibilidad de sustitutos y la proporción del ingreso que se gasta en el bien. Cuantos más sustitutos cercanos existan, más elástica es la demanda, porque el consumidor puede cambiar fácilmente de producto. Por ejemplo, la demanda de una marca de gaseosa es elástica porque existen otras marcas. En cambio, cuando el gasto en el bien representa una parte pequeña del presupuesto, como la sal, la demanda tiende a ser inelástica, porque el consumidor no reacciona mucho ante un cambio de precio.\n\nTambién influye el tiempo: en el largo plazo la demanda suele ser más elástica porque los consumidores pueden ajustar sus hábitos.",
+      "esquema": [
+        "Definición: cambio porcentual de la cantidad sobre cambio porcentual del precio.",
+        "Uso del valor absoluto y rangos: elástica, inelástica, unitaria.",
+        "Relación con el ingreso total del productor.",
+        "Factor 1: disponibilidad de sustitutos cercanos.",
+        "Factor 2: proporción del ingreso gastada en el bien.",
+        "Factores adicionales: necesidad, tiempo, definición del mercado.",
+        "Ejemplo aplicado con dos bienes contrastantes."
+      ],
+      "banda_oficial": "7-8",
+      "nota_oficial": 8,
+      "justificacion": "La definición operativa es correcta, con la fórmula expresada en palabras y los tres rangos bien delimitados. Los dos factores exigidos se explican con ejemplos contrastantes que funcionan. El vacío está en la relación con el ingreso total: se menciona que no cambia con demanda unitaria, pero no se usa como criterio para justificar la elasticidad ni se aplica a los ejemplos. Tampoco se cuantifica con un cálculo sencillo. Banda 7-8: buena comprensión con un desarrollo todavía general."
+    },
+    {
+      "id": "ex13",
+      "unidad": "Microeconomía",
+      "tema": "Costos de producción",
+      "verbo": "Explica",
+      "consigna": "Explica la diferencia entre costo fijo, costo variable y costo marginal, y su relación con la curva de oferta de una empresa. [10]",
+      "puntaje_max": 10,
+      "respuesta_estudiante": "El costo fijo es el que no cambia cuando cambia la cantidad producida, por ejemplo el alquiler de la planta o el seguro. La empresa lo paga aunque produzca cero. El costo variable es el que sí cambia con la cantidad producida, como la materia prima y la mano de obra directa. El costo total es la suma de los dos.\n\nEl costo marginal es el aumento del costo total cuando se produce una unidad adicional. Es importante porque indica cuánto cuesta producir esa última unidad y, según la teoría, la empresa decide producir hasta el punto en que el costo marginal iguala al ingreso marginal. Si el precio es menor que el costo marginal, a la empresa le conviene producir menos.\n\nLa curva de oferta de la empresa se relaciona con los costos porque muestra cuánto está dispuesta a ofrecer a cada precio. Si el precio no cubre el costo variable medio, la empresa cierra en el corto plazo. En el largo plazo, la empresa solo permanece en el mercado si el precio cubre el costo total medio.\n\nPor eso los costos son importantes: si sube el precio de la materia prima, los costos aumentan y la curva de oferta se desplaza hacia la izquierda, y el precio de equilibrio sube.",
+      "esquema": [
+        "Costo fijo: no varía con la cantidad producida.",
+        "Costo variable: varía con la cantidad producida.",
+        "Costo total como suma de costo fijo y costo variable.",
+        "Costo marginal: cambio del costo total ante una unidad adicional.",
+        "Maximización de beneficios: costo marginal igual a ingreso marginal.",
+        "Oferta de la empresa: tramo del costo marginal por encima del costo variable medio.",
+        "Desplazamiento de la oferta cuando cambian los costos."
+      ],
+      "banda_oficial": "5-6",
+      "nota_oficial": 6,
+      "justificacion": "Las tres definiciones son correctas y el criterio de maximización (costo marginal igual a ingreso marginal) está bien presentado, lo que muestra comprensión adecuada. La relación con la curva de oferta, en cambio, queda en el nivel de la condición de cierre y no explica que la curva de oferta de la empresa es el tramo ascendente del costo marginal por encima del costo variable medio. La distinción entre corto y largo plazo aparece mezclada con el cierre de la empresa. Banda 5-6."
+    },
+    {
+      "id": "ex14",
+      "unidad": "Microeconomía",
+      "tema": "Impuesto indirecto",
+      "verbo": "Evalúa",
+      "consigna": "Evalúa el uso de un impuesto indirecto para aumentar la recaudación del gobierno y reducir el consumo de un bien nocivo para la salud. [15]",
+      "puntaje_max": 15,
+      "respuesta_estudiante": "Un impuesto indirecto es un impuesto sobre el consumo de un bien. Al aplicarlo, la curva de oferta se desplaza hacia arriba en el monto del impuesto, porque el productor debe cubrir ese pago. El precio que paga el consumidor sube, la cantidad intercambiada baja y el gobierno obtiene una recaudación igual al impuesto multiplicado por la nueva cantidad.\n\nLa efectividad para reducir el consumo depende de la elasticidad precio de la demanda. Si el bien tiene demanda inelástica, como el tabaco, el consumo baja poco y la mayor parte del impuesto la paga el consumidor. En ese caso el impuesto recauda mucho pero reduce poco el consumo. Si la demanda es elástica, el consumo baja más, pero la recaudación es menor y la carga recae más en los productores.\n\nLa evaluación debe considerar varios efectos. Para la salud pública, un impuesto alto puede reducir el consumo, sobre todo en jóvenes con presupuesto limitado. Sin embargo, es regresivo: las familias de menores ingresos gastan una proporción mayor de su ingreso en estos bienes y pagan más impuesto en relación con su capacidad. Además, puede fomentar el comercio ilegal, lo que reduce la recaudación y la calidad del producto.\n\nEn conclusión, el impuesto indirecto es efectivo para recaudar y puede reducir el consumo cuando se combina con educación y control del contrabando, pero por sí solo no resuelve el problema de salud ni es equitativo. Su conveniencia depende de la elasticidad y de la capacidad de fiscalización del Estado.",
+      "esquema": [
+        "Definición de impuesto indirecto y su efecto sobre la oferta.",
+        "Desplazamiento de la oferta hacia arriba o a la izquierda.",
+        "Aumento del precio pagado por el consumidor y reducción de la cantidad.",
+        "Recaudación como impuesto por cantidad intercambiada.",
+        "Incidencia tributaria según la elasticidad precio de la demanda.",
+        "Efecto regresivo sobre la equidad.",
+        "Riesgo de mercado ilegal o contrabando.",
+        "Juicio final con condiciones explícitas."
+      ],
+      "banda_oficial": "10-12",
+      "nota_oficial": 12,
+      "justificacion": "El análisis técnico es correcto y completo: desplazamiento de la oferta, incidencia según elasticidad y recaudación. La evaluación incorpora salud pública, equidad y contrabando, y distingue entre los dos objetivos de política, que a veces entran en conflicto. La conclusión condiciona la conveniencia a la elasticidad y a la capacidad de fiscalización. Para la banda superior faltaría ponderar magnitudes, comparar con instrumentos alternativos como la regulación o la educación, y desarrollar el argumento de regresividad con un ejemplo concreto. Banda 10-12."
+    },
+    {
+      "id": "ex15",
+      "unidad": "Microeconomía",
+      "tema": "Subsidio y externalidades positivas",
+      "verbo": "Evalúa",
+      "consigna": "Evalúa si un subsidio a la educación es una respuesta adecuada a una externalidad positiva. [15]",
+      "puntaje_max": 15,
+      "respuesta_estudiante": "Una externalidad positiva ocurre cuando el consumo o la producción de un bien genera beneficios para terceros que no participan en la transacción. En la educación, la persona que estudia recibe un beneficio privado, pero la sociedad también se beneficia: hay más productividad, menos delincuencia y mejores decisiones de salud. Como el mercado solo toma en cuenta el beneficio privado, se produce menos educación de la que sería socialmente óptima.\n\nUn subsidio es un pago que hace el gobierno para reducir el costo de producción o el precio. En el diagrama de oferta y demanda, el subsidio desplaza la curva de oferta hacia la derecha, el precio que paga el consumidor baja y la cantidad aumenta.\n\nEsto puede ser adecuado porque acerca la cantidad al nivel socialmente óptimo y mejora el acceso de las familias pobres. Sin embargo, tiene costos. El gobierno debe financiarlo con impuestos y ese dinero podría usarse en otras cosas. Además, a veces los subsidios benefician a instituciones que no son de buena calidad.\n\nEn conclusión, el subsidio a la educación es una buena medida porque la educación beneficia a toda la sociedad y no solo a quien estudia, aunque el gobierno debe controlar que el dinero se use bien.",
+      "esquema": [
+        "Definición de externalidad positiva.",
+        "Beneficio privado frente a beneficio social.",
+        "Subproducción en el mercado libre respecto al óptimo social.",
+        "Efecto del subsidio: desplazamiento de la oferta a la derecha.",
+        "Reducción del precio y aumento de la cantidad consumida.",
+        "Costo fiscal y costo de oportunidad del gasto público.",
+        "Riesgo de financiar instituciones de baja calidad.",
+        "Juicio sobre la adecuación y el diseño de la política."
+      ],
+      "banda_oficial": "7-9",
+      "nota_oficial": 8,
+      "justificacion": "La teoría de la externalidad positiva está bien aplicada al caso de la educación y el mecanismo del subsidio se describe correctamente, incluido el desplazamiento de la oferta. La evaluación reconoce el costo fiscal y el riesgo de calidad, así que hay más de una perspectiva. Lo que falta es ponderación: se menciona el costo de oportunidad del gasto sin analizarlo, no se compara con instrumentos alternativos como becas focalizadas o regulación de calidad, y la conclusión es afirmativa en lugar de condicional. Banda 7-9."
+    },
+    {
+      "id": "ex16",
+      "unidad": "Microeconomía",
+      "tema": "Control de precios",
+      "verbo": "Evalúa",
+      "consigna": "Evalúa los efectos de un precio máximo fijado por debajo del precio de equilibrio en el mercado de un alimento básico. [15]",
+      "puntaje_max": 15,
+      "respuesta_estudiante": "Un precio máximo es el precio más alto que se puede cobrar por un bien. El gobierno lo fija para proteger a los consumidores de precios muy altos, por ejemplo en el arroz o en la leche.\n\nSi el gobierno pone un precio máximo por debajo del precio de equilibrio, el producto se vuelve más barato y las familias pueden comprarlo. Eso es bueno para las personas de bajos ingresos, que antes no podían pagar el precio del mercado. También ayuda a controlar la inflación, porque los precios de los alimentos son los que más afectan el costo de vida.\n\nAl ser más barato, los productores van a querer producir más para vender más y ganar más plata. Entonces la cantidad ofrecida aumenta y todos quedan contentos: los consumidores compran más barato y los productores venden más.\n\nPor eso creo que el precio máximo es una buena medida cuando los precios están muy altos. El único problema es que a veces aparece el mercado negro, pero si el gobierno controla bien, eso se puede evitar. En conclusión, el precio máximo beneficia a la mayoría de la población y debería usarse cuando sea necesario.",
+      "esquema": [
+        "Definición de precio máximo y su ubicación por debajo del equilibrio.",
+        "El precio máximo por debajo del equilibrio genera escasez.",
+        "Reducción de la cantidad ofrecida y aumento de la cantidad demandada.",
+        "Consecuencias: colas, racionamiento, mercado negro, pérdida de calidad.",
+        "Efectos sobre los productores y sobre la inversión futura.",
+        "Grupos beneficiados y perjudicados.",
+        "Juicio sobre conveniencia y medidas complementarias."
+      ],
+      "banda_oficial": "1-3",
+      "nota_oficial": 3,
+      "justificacion": "La definición inicial es correcta, pero la respuesta comete el error central del tema: afirma que con un precio máximo por debajo del equilibrio los productores ofrecen más porque el producto es más barato. En realidad la cantidad ofrecida disminuye y aparece escasez. Al no reconocer la escasez, se pierde todo el análisis de consecuencias: colas, racionamiento, mercado negro y pérdida de calidad quedan reducidos a una mención final. La evaluación es una opinión sin criterios ('creo que', 'debería usarse'). Banda 1-3."
+    },
+    {
+      "id": "ex17",
+      "unidad": "Microeconomía",
+      "tema": "Externalidades negativas",
+      "verbo": "Evalúa",
+      "consigna": "Evalúa la afirmación: 'Cuando existe una externalidad negativa de producción, el mercado por sí solo asigna los recursos de manera eficiente'. [15]",
+      "puntaje_max": 15,
+      "respuesta_estudiante": "Una externalidad negativa de producción aparece cuando la producción de un bien impone un costo a terceros que no participan en la transacción, como la contaminación de un río por una fábrica. El costo marginal privado de la empresa no incluye ese daño, por lo que el costo marginal social es mayor que el privado.\n\nEn el diagrama, la curva de oferta refleja el costo privado. Si se incorporara el costo social, la curva de oferta se desplazaría hacia arriba. El resultado es que el mercado produce una cantidad mayor que la socialmente óptima y a un precio menor, lo que genera una pérdida de bienestar: la diferencia entre el costo social y el beneficio privado de las unidades producidas en exceso.\n\nPor lo tanto, la afirmación es incorrecta: el mercado no asigna eficientemente los recursos cuando hay externalidades negativas, porque los precios no reflejan todos los costos.\n\nSin embargo, la corrección tiene límites. Un impuesto pigouviano igual al costo marginal externo puede acercar la producción al óptimo social, pero el Estado necesita medir el daño, lo que es difícil y costoso. Además, la regulación puede aumentar los costos de las empresas y reducir el empleo, sobre todo donde la fábrica es la principal fuente de trabajo. También hay que comparar con permisos negociables o estándares tecnológicos, que pueden ser más eficientes según el caso.\n\nEn conclusión, la afirmación es falsa y la intervención se justifica. No obstante, su conveniencia práctica depende de la magnitud del daño, de la capacidad de medición y de los costos de regulación.",
+      "esquema": [
+        "Definición de externalidad negativa de producción.",
+        "Costo marginal privado menor que el costo marginal social.",
+        "Sobreproducción respecto al óptimo social.",
+        "Pérdida de bienestar asociada al exceso de producción.",
+        "Falla de mercado: los precios no reflejan el costo social.",
+        "Instrumentos: impuesto pigouviano, regulación, permisos negociables.",
+        "Límites: medición del daño, costos administrativos, efectos sobre el empleo.",
+        "Juicio final sobre la afirmación."
+      ],
+      "banda_oficial": "13-15",
+      "nota_oficial": 15,
+      "justificacion": "La respuesta identifica con precisión el problema: divergencia entre costo privado y costo social, sobreproducción y pérdida de bienestar. El diagrama implícito es coherente y está bien descrito (oferta privada, oferta social, cantidad excesiva). La evaluación es el punto fuerte: no se limita a recomendar el impuesto, sino que discute la dificultad de medir el daño, el efecto sobre el empleo y la comparación con permisos negociables y estándares. El juicio final es matizado y condicional. Banda 13-15."
+    },
+    {
+      "id": "ex18",
+      "unidad": "Microeconomía",
+      "tema": "Bienes públicos y fallas de mercado",
+      "verbo": "Discute",
+      "consigna": "Discute si los bienes públicos deben financiarse únicamente con impuestos. [15]",
+      "puntaje_max": 15,
+      "respuesta_estudiante": "Un bien público tiene dos características: no es rival en el consumo, porque el uso de una persona no reduce la cantidad disponible para otra, y no es excluible, porque no se puede impedir que alguien lo use. El alumbrado público y la defensa nacional son ejemplos. Por eso aparece el problema del polizón: nadie quiere pagar por un bien que puede usar gratis, y el mercado privado no lo produce en cantidad suficiente.\n\nA favor del financiamiento con impuestos, el Estado puede cobrar obligatoriamente y proveer el bien a toda la población. Como el costo de proveer a una persona adicional es cero, sería ineficiente excluir a alguien, y el impuesto evita que el consumo dependa de la capacidad de pago.\n\nEn contra de que sea la única fuente, hay bienes que se consideran públicos pero admiten algún grado de exclusión, como las carreteras con peaje o los parques con entrada. En esos casos el cobro directo puede reducir el uso excesivo y generar ingresos. También hay bienes meritorios, como la educación, donde el usuario puede aportar una parte del costo.\n\nAdemás, el financiamiento con impuestos no garantiza eficiencia: el Estado puede producir a costos altos o asignar el gasto según criterios políticos.\n\nEn conclusión, los bienes públicos puros deben financiarse principalmente con impuestos, pero no es necesario que sea la única fuente para todos los bienes que presta el Estado.",
+      "esquema": [
+        "Definición de bien público: no rival y no excluible.",
+        "Problema del polizón y subproducción por el sector privado.",
+        "Argumento a favor del financiamiento tributario.",
+        "Casos con exclusión parcial: peajes y parques.",
+        "Bienes meritorios y aporte del usuario.",
+        "Crítica: eficiencia del gasto público y asignación política.",
+        "Conclusión evaluada."
+      ],
+      "banda_oficial": "10-12",
+      "nota_oficial": 10,
+      "justificacion": "La definición de bien público es precisa y el problema del polizón se usa correctamente para justificar la provisión estatal. El debate incorpora casos de exclusión parcial y bienes meritorios, lo que muestra evaluación adecuada. Sin embargo, el argumento se apoya en ejemplos sin analizar cómo se fijaría el precio en los casos de exclusión parcial ni qué ocurre con la equidad cuando se cobra. La crítica a la eficiencia del gasto público se enuncia y no se desarrolla. Banda 10-12 en su límite inferior."
+    },
+    {
+      "id": "ex19",
+      "unidad": "Microeconomía",
+      "tema": "Estructuras de mercado",
+      "verbo": "Discute",
+      "consigna": "Discute si un monopolio siempre perjudica a los consumidores en comparación con una competencia perfecta. [15]",
+      "puntaje_max": 15,
+      "respuesta_estudiante": "En competencia perfecta hay muchas empresas que venden un producto homogéneo y no pueden influir en el precio. En el largo plazo el precio tiende a igualar el costo marginal y el costo medio mínimo, y la cantidad producida es mayor que en cualquier otra estructura.\n\nUn monopolio, en cambio, es el único oferente y enfrenta toda la curva de demanda del mercado. Maximiza su beneficio produciendo donde el ingreso marginal iguala al costo marginal, con un precio mayor y una cantidad menor que en competencia perfecta. Eso reduce el excedente del consumidor y genera una pérdida de bienestar. También puede tener menos incentivos para mejorar la calidad, porque no enfrenta competencia.\n\nSin embargo, la comparación no siempre favorece a la competencia perfecta. Un monopolio natural, como la red de distribución de agua, tiene costos medios decrecientes, y dividir la producción entre varias empresas elevaría el costo medio y el precio final. En ese caso el monopolio regulado puede ser más eficiente. Además, los beneficios monopólicos pueden financiar investigación y desarrollo que en un mercado de competencia perfecta con productos homogéneos no se financiaría, porque las empresas no tendrían margen para hacerlo.\n\nEn conclusión, el monopolio tiende a perjudicar a los consumidores por el precio más alto y la menor cantidad, pero no siempre. El resultado depende de si existen economías de escala, del grado de regulación y de si la innovación compensa la pérdida de eficiencia estática.",
+      "esquema": [
+        "Características de la competencia perfecta.",
+        "Características del monopolio y regla de maximización.",
+        "Comparación de precio, cantidad y excedente del consumidor.",
+        "Pérdida de bienestar y eficiencia asignativa.",
+        "Argumentos a favor del monopolio: economías de escala y monopolio natural.",
+        "Innovación financiada con beneficios extraordinarios.",
+        "Necesidad de regulación y poder de mercado.",
+        "Conclusión con condiciones."
+      ],
+      "banda_oficial": "13-15",
+      "nota_oficial": 13,
+      "justificacion": "La comparación teórica es sólida: distingue estructuras, aplica la regla de maximización y explica la pérdida de bienestar y la reducción del excedente del consumidor. El contraargumento del monopolio natural está bien construido y el de innovación agrega matiz. La conclusión es condicional y usa criterios explícitos (economías de escala, regulación, innovación). Falta desarrollar el papel de la regulación de precios y la distinción entre eficiencia estática y dinámica con mayor detalle. Banda 13-15."
+    },
+    {
+      "id": "ex20",
+      "unidad": "Microeconomía",
+      "tema": "Elasticidad precio de la oferta",
+      "verbo": "Discute",
+      "consigna": "Discute la afirmación: 'La oferta de productos agrícolas es inelástica en el corto plazo y elástica en el largo plazo'. [15]",
+      "puntaje_max": 15,
+      "respuesta_estudiante": "La elasticidad precio de la oferta mide cuánto cambia la cantidad ofrecida cuando cambia el precio. Si es inelástica, la cantidad cambia poco; si es elástica, cambia mucho.\n\nEn el caso de los productos agrícolas, la afirmación tiene sentido. En el corto plazo el agricultor ya sembró, y no puede cambiar de un día para otro la cantidad de maíz que va a cosechar. Entonces, si el precio del maíz sube, la cantidad ofrecida casi no cambia y la oferta es inelástica. En el largo plazo, en cambio, el agricultor puede sembrar más hectáreas o cambiar de cultivo, y la oferta se vuelve más elástica.\n\nPor eso, cuando hay una mala cosecha, el precio sube mucho en el corto plazo, porque la oferta no puede aumentar rápido. Eso explica la volatilidad de los precios agrícolas.\n\nSin embargo, hay que tener en cuenta otros factores. La oferta también se desplaza por el clima, los costos de los fertilizantes y las plagas, y eso no es elasticidad sino un desplazamiento de la curva. Muchas veces los estudiantes confunden las dos cosas.\n\nEn conclusión, la afirmación es correcta en términos generales, porque el tiempo es el principal determinante de la elasticidad de la oferta, pero la volatilidad de los precios agrícolas también depende de otros factores como el clima y la especulación.",
+      "esquema": [
+        "Definición de elasticidad precio de la oferta.",
+        "Determinantes: tiempo, capacidad instalada, movilidad de factores.",
+        "Corto plazo agrícola: cosecha ya decidida, oferta inelástica.",
+        "Largo plazo: ajuste de superficie y de cultivo, oferta más elástica.",
+        "Distinción entre movimiento sobre la curva y desplazamiento.",
+        "Implicaciones para la volatilidad de los precios.",
+        "Evaluación de la afirmación y de sus límites."
+      ],
+      "banda_oficial": "4-6",
+      "nota_oficial": 6,
+      "justificacion": "La definición es correcta y la aplicación al corto y largo plazo agrícola es pertinente, con la distinción entre movimiento y desplazamiento bien señalada. Aun así, la discusión es unilateral: no se presentan argumentos que cuestionen la afirmación, como el papel de la capacidad instalada o de los inventarios, y la evaluación se reduce a decir que la afirmación 'es correcta en términos generales'. La referencia al clima y la especulación aparece al final sin integrarse al análisis. Banda 4-6: evaluación limitada."
+    }
+  ]
+}

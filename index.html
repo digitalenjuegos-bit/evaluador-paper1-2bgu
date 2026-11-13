@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluador IB · Paper 1 (Economía NM)</title>
+<style>
+:root{
+  --navy:#16324f; --navy2:#0e2338; --cream:#fbf8f1; --paper:#ffffff;
+  --line:#dde4ea; --ink:#1b2a33; --muted:#52626c; --gold:#96691d;
+  --green:#1f6b4f; --red:#8b1e3f; --soft:#eef3f7; --amber:#f8f0dd;
+  --focus:#b8862f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:var(--cream); color:var(--ink); font-size:1rem; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif}
+a{color:var(--navy)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+
+header{background:var(--navy);color:#fff;padding:15px 0}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column}
+.brand h1{font-size:1.16rem;font-weight:700;letter-spacing:.2px}
+.brand span{font-size:.84rem;color:#c3d5e4;margin-top:2px}
+.header-right{display:flex;align-items:center;gap:10px;font-size:.85rem;color:#d7e4ee}
+.pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:5px 12px;border-radius:999px}
+
+.screen{display:none;padding:30px 0 56px}
+.screen.active{display:block}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:28px;box-shadow:0 1px 2px rgba(22,50,79,.04)}
+.card + .card{margin-top:18px}
+h2{font-size:1.5rem;color:var(--navy);margin-bottom:10px;line-height:1.25}
+h3{font-size:1.1rem;color:var(--navy);margin-bottom:8px}
+p.lead{color:var(--muted);margin-bottom:10px}
+.small{font-size:.9rem;color:var(--muted)}
+strong{font-weight:700}
+
+.field{margin-top:18px}
+.field label{display:block;font-weight:600;font-size:.95rem;margin-bottom:6px;color:var(--navy)}
+.field input,.field select,.field textarea{
+  width:100%;padding:11px 13px;border:1px solid #bcc9d2;border-radius:9px;
+  font-size:1rem;font-family:inherit;background:#fff;color:var(--ink)
+}
+.field input:focus,.field select:focus{border-color:var(--navy);outline:2px solid #a9c1d4;outline-offset:0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.row{grid-template-columns:1fr}}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--navy);color:#fff;border:1px solid var(--navy);border-radius:9px;
+  padding:12px 22px;font-size:1rem;font-weight:600;font-family:inherit;cursor:pointer;
+  transition:background .15s ease
+}
+.btn:hover{background:var(--navy2)}
+.btn:disabled{background:#b7c2ca;border-color:#b7c2ca;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--navy);border:1px solid #adbfcc}
+.btn.ghost:hover{background:var(--soft)}
+.btn.green{background:var(--green);border-color:var(--green)}
+.btn.green:hover{background:#16543d}
+.btn.danger{background:var(--red);border-color:var(--red)}
+.btn.danger:hover{background:#6d1731}
+.btn.small{padding:8px 14px;font-size:.9rem}
+.btn.tiny{padding:5px 10px;font-size:.82rem}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;align-items:center}
+
+.err{color:var(--red);font-size:.92rem;margin-top:10px;display:none}
+.err.show{display:block}
+.banner{background:#fdf2f5;border:1px solid #e8c3cf;color:#7a1a34;padding:13px 16px;border-radius:10px;margin-bottom:16px;font-size:.95rem;display:none}
+.banner.show{display:block}
+.banner.ok{background:#eef7f1;border-color:#bcdcc9;color:#14503a}
+.banner.warn{background:var(--amber);border-color:#e3cfa4;color:#5d4410}
+
+ul.plain{margin:10px 0 0 20px}
+ul.plain li{margin-bottom:7px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.chip{background:var(--soft);border:1px solid #cfdee8;color:#14405c;font-size:.86rem;padding:5px 11px;border-radius:999px}
+.chip.gold{background:var(--amber);border-color:#e0cba0;color:#5d4410}
+
+.qbar{display:flex;justify-content:space-between;align-items:center;font-size:.88rem;color:var(--muted);margin-bottom:10px;gap:12px;flex-wrap:wrap}
+.progress{height:8px;background:#e2e9ee;border-radius:99px;overflow:hidden;margin-bottom:22px}
+.progress > i{display:block;height:100%;background:var(--green);width:0;transition:width .25s ease}
+.consigna{font-size:1.22rem;color:var(--navy);line-height:1.45;margin:6px 0 4px;font-family:Georgia,"Times New Roman",serif}
+
+.reading{
+  background:#fcfaf3;border:1px solid #e8dfc9;border-left:4px solid var(--gold);
+  padding:16px 18px;border-radius:0 10px 10px 0;margin-top:10px;
+  max-height:360px;overflow:auto;white-space:pre-wrap;font-size:.98rem
+}
+.esqlist{border:0;margin-top:10px}
+.esq{
+  display:flex;gap:12px;align-items:flex-start;padding:11px 13px;border:1px solid var(--line);
+  border-radius:9px;margin-bottom:8px;background:#fff;cursor:pointer;font-size:.96rem
+}
+.esq:hover{border-color:#a9c1d4;background:#f8fbfd}
+.esq input{margin-top:4px;width:18px;height:18px;flex:none;accent-color:var(--green)}
+.gradebox{background:var(--soft);border:1px solid #d3e0e9;border-radius:12px;padding:16px;margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gradebox .wide{grid-column:1/-1}
+.gradebox label{display:block;font-weight:600;font-size:.93rem;color:var(--navy);margin-bottom:5px}
+.gradebox select,.gradebox input[type=number]{
+  width:100%;padding:10px 12px;border:1px solid #bcc9d2;border-radius:8px;font-size:1rem;font-family:inherit;background:#fff;color:var(--ink)
+}
+.gradebox input[type=range]{width:100%;accent-color:var(--gold);height:28px}
+.gradehint{font-size:.88rem;color:var(--muted);margin-top:8px;grid-column:1/-1}
+@media(max-width:640px){.gradebox{grid-template-columns:1fr}}
+
+.scoreband{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin:8px 0 6px}
+.circle{
+  width:140px;height:140px;border-radius:50%;flex:none;
+  background:linear-gradient(135deg,var(--navy),#081a29);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;
+  border:7px solid rgba(31,107,79,.30)
+}
+.circle b{font-size:2.3rem;line-height:1;color:#fff}
+.circle small{font-size:.78rem;color:#cfe0e2;margin-top:6px;letter-spacing:.5px}
+.verdict h3{font-size:1.3rem;margin-bottom:4px}
+.tablewrap{overflow-x:auto;margin-top:12px;border:1px solid var(--line);border-radius:10px}
+table.tbl{width:100%;border-collapse:collapse;font-size:.9rem;background:#fff;min-width:560px}
+table.tbl th,table.tbl td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.tbl th{background:var(--soft);font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;color:var(--navy);font-weight:700}
+table.tbl tr:last-child td{border-bottom:none}
+table.tbl td.num{text-align:center;white-space:nowrap}
+table.tbl tr.detailrow td{background:#fafcfd}
+.just{margin-top:8px}
+.just summary{cursor:pointer;color:var(--navy);font-size:.86rem;font-weight:600}
+.just p{margin-top:6px;font-size:.88rem;color:var(--muted)}
+.tag-diff{display:inline-block;font-weight:700;padding:2px 8px;border-radius:999px;font-size:.82rem}
+.tag-diff.zero{background:#e6f4ea;color:#14503a}
+.tag-diff.one{background:#fdf4e3;color:#6a4d10}
+.tag-diff.two{background:#fbe9ee;color:#7a1a34}
+.profile{margin-top:26px}
+.prow{display:grid;grid-template-columns:150px 1fr 84px;gap:12px;align-items:center;margin-bottom:10px;font-size:.92rem}
+.bar{height:10px;background:#e2e9ee;border-radius:99px;overflow:hidden}
+.bar > i{display:block;height:100%;border-radius:99px;background:var(--green)}
+.pnote{font-size:.88rem;color:var(--muted);margin:-6px 0 12px 162px}
+@media(max-width:640px){.prow{grid-template-columns:110px 1fr 74px}.pnote{margin-left:0}}
+
+.guia-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:760px){.guia-grid{grid-template-columns:1fr}}
+.verb-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
+.verb-card h3{font-size:1.05rem;margin-bottom:6px}
+.verb-card p{font-size:.94rem}
+.verb-card .marks{font-size:.82rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.bandtable table.tbl{min-width:0}
+.bandtable table.tbl td{font-size:.88rem}
+
+footer{border-top:1px solid var(--line);padding:18px 0;margin-top:8px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.84rem;color:var(--muted);align-items:center}
+.tp-link{background:none;border:none;font-family:inherit;font-size:.84rem;color:#7d8f9a;cursor:pointer;text-decoration:underline;padding:4px}
+.tp-link:hover{color:var(--navy)}
+
+.overlay{position:fixed;inset:0;background:rgba(10,25,38,.62);display:flex;align-items:center;justify-content:center;padding:18px;z-index:500}
+.overlay[hidden]{display:none !important}
+.modal{background:#fff;border-radius:14px;padding:26px;max-width:420px;width:100%;box-shadow:0 18px 48px rgba(0,0,0,.28)}
+.modal h3{font-size:1.18rem;margin-bottom:8px}
+.panel{background:#fff;border-radius:14px;max-width:1000px;width:100%;max-height:90vh;overflow:auto;padding:26px;box-shadow:0 18px 48px rgba(0,0,0,.28)}
+.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.panel-head h2{font-size:1.35rem;margin:0}
+.panel-sec{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+.panel-sec h3{font-size:1.02rem;margin-bottom:10px}
+.cfgrow{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+.cfgrow .field{margin-top:0;min-width:170px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-top:10px}
+.filters .field{margin-top:0;flex:1 1 200px}
+.panel-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.statusline{font-size:.88rem;color:var(--muted);margin-top:6px}
+.statusline b{color:var(--navy)}
+
+.toast{
+  position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--navy);color:#fff;padding:12px 20px;border-radius:10px;font-size:.92rem;
+  opacity:0;pointer-events:none;transition:all .25s ease;z-index:700;max-width:92vw;text-align:center
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.hidden{display:none !important}
+.print-head{display:none}
+
+@media print{
+  @page{margin:14mm}
+  body{background:#fff;color:#000}
+  .no-print,header,footer,.overlay,.toast{display:none !important}
+  .screen{display:none !important}
+  #s-result{display:block !important}
+  .card{border:none;padding:0;box-shadow:none}
+  .tablewrap{overflow:visible;border:1px solid #999}
+  table.tbl{min-width:0}
+  table.tbl th,table.tbl td{border-color:#bbb}
+  tr,.profile .prow{break-inside:avoid}
+  .print-head{display:block !important;margin-bottom:14px;border-bottom:2px solid #000;padding-bottom:8px}
+  .circle{border-color:#555}
+}
+</style>
+</head>
+<body>
+
+<header class="no-print">
+  <div class="wrap">
+    <div class="brand">
+      <h1>Evaluador IB · Paper 1</h1>
+      <span>Economía Nivel Medio · Logos Academy</span>
+    </div>
+    <div class="header-right">
+      <span class="pill" id="headerPill">Rol: examinador</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+
+  <!-- BIENVENIDA -->
+  <section id="s-welcome" class="screen active">
+    <div class="banner warn" id="closedBanner">La actividad está cerrada por el docente. Puedes leer la guía, pero no registrar una calificación.</div>
+    <div class="banner" id="gateBanner"></div>
+    <div class="banner" id="bootBanner"></div>
+    <div class="card">
+      <h2>Tu rol hoy es calificar, no responder</h2>
+      <p class="lead">En esta actividad vas a actuar como examinador del Paper 1. Recibirás respuestas escritas por otros estudiantes, con su consigna y su esquema de calificación. Tu tarea es decidir la banda, fijar la nota y marcar los puntos del esquema que la respuesta cumple.</p>
+      <p class="lead">Al final compararás tu calificación con la del examinador oficial. La nota que obtengas mide qué tan cerca quedaste de esa calificación, no tu dominio de la teoría.</p>
+      <div class="field">
+        <label for="selNombre">Tu nombre</label>
+        <select id="selNombre">
+          <option value="">Selecciona tu nombre</option>
+          <optgroup label="2BGU A">
+            <option value="Albán Altamirano Gianella Alejandra">Albán Altamirano Gianella Alejandra</option>
+            <option value="Campuzano Salazar Juan José">Campuzano Salazar Juan José</option>
+            <option value="Chalén Herrera Vicente Manuel">Chalén Herrera Vicente Manuel</option>
+            <option value="De La Cruz Naranjo Mateo Andrés">De La Cruz Naranjo Mateo Andrés</option>
+            <option value="Flor León Jacinto Andrés">Flor León Jacinto Andrés</option>
+            <option value="Guerrero Herdoíza Ivanna Beatriz">Guerrero Herdoíza Ivanna Beatriz</option>
+            <option value="Mendiburo Cedeño Adrián Mathias">Mendiburo Cedeño Adrián Mathias</option>
+            <option value="Stark Román Alejandra Brianna">Stark Román Alejandra Brianna</option>
+            <option value="Vizhñay Vélez Valeria Isabel">Vizhñay Vélez Valeria Isabel</option>
+            <option value="Romero Moncada Juan Martín">Romero Moncada Juan Martín</option>
+            <option value="Granda Baquero Juan David">Granda Baquero Juan David</option>
+          </optgroup>
+          <optgroup label="2BGU B">
+            <option value="Barón Mejía Julián Andrés">Barón Mejía Julián Andrés</option>
+            <option value="Murillo Chávez Sergio Martín">Murillo Chávez Sergio Martín</option>
+            <option value="Ortiz Egas Sebastián Andrés">Ortiz Egas Sebastián Andrés</option>
+            <option value="Ortiz Montenegro Carlos Eduardo">Ortiz Montenegro Carlos Eduardo</option>
+            <option value="Pabón Rengifo Valeska Naomy">Pabón Rengifo Valeska Naomy</option>
+            <option value="Sierra Toala Ernesto Andrés">Sierra Toala Ernesto Andrés</option>
+            <option value="Vizcaino Bonilla Julio Antonio">Vizcaino Bonilla Julio Antonio</option>
+            <option value="Aspiazu Sotomayor Camila Andrea">Aspiazu Sotomayor Camila Andrea</option>
+            <option value="Granda Constantine Xavier Alejandro">Granda Constantine Xavier Alejandro</option>
+            <option value="Molano Castro Emmanuel">Molano Castro Emmanuel</option>
+          </optgroup>
+          <optgroup label="2BGU C">
+            <option value="Martínez Luna Matías Alejandro">Martínez Luna Matías Alejandro</option>
+            <option value="Tamayo Bonilla Domenica Fiorella">Tamayo Bonilla Domenica Fiorella</option>
+          </optgroup>
+        </select>
+      </div>
+      <p class="small" id="welcomeCount"></p>
+      <div class="err" id="welcomeErr"></div>
+      <div class="btn-row">
+        <button class="btn green" id="btnComenzar" disabled>Comenzar</button>
+        <span class="small">Un solo intento por estudiante. No hay temporizador.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUIA -->
+  <section id="s-guia" class="screen">
+    <div class="card">
+      <h2>Qué exige cada verbo y cómo se califica</h2>
+      <p class="lead">Antes de calificar, revisa estos dos criterios. El verbo de la consigna determina qué debe hacer la respuesta; la banda describe la calidad global.</p>
+      <div class="guia-grid" id="guiaVerbos"></div>
+    </div>
+    <div class="card bandtable">
+      <h3>Bandas para preguntas de 10 puntos</h3>
+      <div class="tablewrap"><table class="tbl"><thead><tr><th>Banda</th><th>Descripción</th></tr></thead><tbody id="bandasDiez"></tbody></table></div>
+    </div>
+    <div class="card bandtable">
+      <h3>Bandas para preguntas de 15 puntos</h3>
+      <div class="tablewrap"><table class="tbl"><thead><tr><th>Banda</th><th>Descripción</th></tr></thead><tbody id="bandasQuince"></tbody></table></div>
+      <div class="btn-row">
+        <button class="btn green" id="btnContinuarGuia">Continuar a la calibración</button>
+        <span class="small">Vas a calificar <strong id="guiaN">8</strong> respuestas.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALIBRACION -->
+  <section id="s-calib" class="screen">
+    <div class="card">
+      <div class="qbar">
+        <span id="calibMeta">Ítem 1 de 8</span>
+        <span id="calibTema"></span>
+      </div>
+      <div class="progress"><i id="calibProgress"></i></div>
+      <div id="calibBody"></div>
+    </div>
+  </section>
+
+  <!-- RESULTADO -->
+  <section id="s-result" class="screen">
+    <div class="print-head" id="printHead"></div>
+    <div class="card">
+      <h2>Resultado de calibración</h2>
+      <div class="scoreband">
+        <div class="circle"><b id="resNota">0.0</b><small>de 10</small></div>
+        <div class="verdict">
+          <h3 id="resNombre"></h3>
+          <p class="lead" id="resResumen"></p>
+          <p class="small" id="resDetalle"></p>
+        </div>
+      </div>
+      <div class="banner ok" id="saveBanner" style="margin-top:14px">Resultado guardado. Ya quedó registrado tu intento.</div>
+      <div class="btn-row no-print">
+        <button class="btn" id="btnPrint">Imprimir / Guardar PDF</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Desglose por ítem</h3>
+      <p class="small">Diferencia de 0 significa coincidencia exacta; 1 es un punto de diferencia; 2 o más indica una desviación amplia.</p>
+      <div class="tablewrap">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th>Consigna</th>
+              <th>Verbo</th>
+              <th>Tu banda</th>
+              <th>Tu nota</th>
+              <th>Nota oficial</th>
+              <th>Diferencia</th>
+              <th>Banda oficial</th>
+            </tr>
+          </thead>
+          <tbody id="resTabla"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Precisión por verbo</h3>
+      <p class="small">Coincidencias exactas sobre el total de ítems de cada verbo.</p>
+      <div class="profile" id="resVerbos"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="no-print">
+  <div class="wrap">
+    <span>Economía IB Nivel Medio · Paper 1 · Actividad de calibración</span>
+    <button class="tp-link" id="btnTeacherLink">Panel docente</button>
+  </div>
+</footer>
+
+<!-- LOGIN DOCENTE -->
+<div class="overlay" id="mLogin" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <h3 id="loginTitle">Panel docente</h3>
+    <p class="small">Ingresa la clave de la actividad.</p>
+    <div class="field">
+      <label for="inpClave">Clave</label>
+      <input type="password" id="inpClave" autocomplete="off" placeholder="Clave docente">
+    </div>
+    <div class="err" id="loginErr"></div>
+    <div class="btn-row">
+      <button class="btn" id="btnLoginOk">Entrar</button>
+      <button class="btn ghost" id="btnLoginCancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL DOCENTE -->
+<div class="overlay" id="mPanel" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle">
+    <div class="panel-head">
+      <div>
+        <h2 id="panelTitle">Panel docente</h2>
+        <p class="small">Evaluador IB Paper 1 · Economía NM</p>
+      </div>
+      <button class="btn ghost small" id="btnPanelClose">Cerrar</button>
+    </div>
+    <div class="statusline" id="panelCloud"></div>
+
+    <div class="panel-sec">
+      <h3>Estado de la actividad</h3>
+      <div class="cfgrow">
+        <div class="field">
+          <label>Estado actual</label>
+          <div id="panelEstado" style="font-weight:600;padding:10px 0">Consultando...</div>
+        </div>
+        <button class="btn small" id="btnToggleOpen">Cerrar actividad</button>
+      </div>
+      <div class="cfgrow" style="margin-top:12px">
+        <div class="field">
+          <label for="cfgNum">Preguntas por estudiante (4 a 20)</label>
+          <input type="number" id="cfgNum" min="4" max="20" step="1" value="8">
+        </div>
+        <button class="btn small" id="btnSaveNum">Guardar número</button>
+        <span class="small" id="cfgNumMsg"></span>
+      </div>
+    </div>
+
+    <div class="panel-sec">
+      <h3>Entregas</h3>
+      <div class="filters">
+        <div class="field">
+          <label for="fTexto">Filtrar por nombre</label>
+          <input type="text" id="fTexto" placeholder="Escribe un nombre">
+        </div>
+        <div class="field">
+          <label for="fParalelo">Paralelo</label>
+          <select id="fParalelo">
+            <option value="">Todos</option>
+            <option value="2BGU A">2BGU A</option>
+            <option value="2BGU B">2BGU B</option>
+            <option value="2BGU C">2BGU C</option>
+          </select>
+        </div>
+        <button class="btn small ghost" id="btnRefresh">Actualizar</button>
+      </div>
+      <div class="tablewrap">
+        <table class="tbl" id="tblEntregas">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Paralelo</th>
+              <th>Nota</th>
+              <th>Exactas</th>
+              <th>Fecha</th>
+              <th>Desglose</th>
+            </tr>
+          </thead>
+          <tbody id="panelTbody"></tbody>
+        </table>
+      </div>
+      <p class="small" id="panelCount" style="margin-top:8px"></p>
+    </div>
+
+    <div class="panel-sec">
+      <div class="panel-actions">
+        <button class="btn small" id="btnCsv">Exportar CSV</button>
+        <button class="btn small danger" id="btnDeleteAll">Borrar todas las entregas</button>
+      </div>
+      <p class="small" style="margin-top:8px">El borrado elimina únicamente las entregas de esta actividad.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRMACION -->
+<div class="overlay" id="mConfirm" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <h3 id="confirmTitle">Confirmar acción</h3>
+    <p id="confirmMsg" style="margin-top:8px"></p>
+    <div class="btn-row">
+      <button class="btn danger" id="btnConfirmOk">Sí, borrar</button>
+      <button class="btn ghost" id="btnConfirmCancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var FIREBASE_CONFIG = {
+    apiKey: "AIzaSyD-iRwZ9AUya0F7tkU4uQUWE7eJbgeFZwM",
+    authDomain: "coevaluacionhistoria.firebaseapp.com",
+    databaseURL: "https://coevaluacionhistoria-default-rtdb.firebaseio.com",
+    projectId: "coevaluacionhistoria",
+    storageBucket: "coevaluacionhistoria.firebasestorage.app",
+    messagingSenderId: "878859292504",
+    appId: "1:878859292504:web:94a313961d347d1d5cdf2d"
+  };
+  var ROOT = "evaluador_paper1_2bgu";
+  var DOCENTE_CLAVE = "DOCENTE2026";
+  var LS_CFG = "evalpaper1_2bgu_cfg_v1";
+  var LS_ENT = "evalpaper1_2bgu_entregas_v1";
+  var SDK_APP = "https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js";
+  var SDK_DB = "https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js";
+
+  var VERBOS = [
+    {
+      verbo: "Explica",
+      marks: "Preguntas de 10 puntos",
+      texto: "Presenta los conceptos con precisión, desarrolla una cadena causal completa y usa un ejemplo pertinente. No basta con definir: hay que mostrar cómo se conecta una variable con la otra y por qué ocurre el resultado."
+    },
+    {
+      verbo: "Explica usando un diagrama",
+      marks: "Preguntas de 10 puntos",
+      texto: "El diagrama debe estar rotulado (ejes, curvas, desplazamientos, equilibrio) y el texto debe referirse a él de forma explícita. Un diagrama correcto sin explicación escrita no alcanza la banda alta."
+    },
+    {
+      verbo: "Evalúa",
+      marks: "Preguntas de 15 puntos",
+      texto: "Emite un juicio fundamentado con criterios claros, considera plazos y grupos afectados, y sustenta la conclusión en la evidencia del análisis. Un juicio sin fundamento no pasa de la banda baja."
+    },
+    {
+      verbo: "Discute",
+      marks: "Preguntas de 15 puntos",
+      texto: "Reconoce más de una perspectiva, las pondera con evidencia y cierra con una conclusión que se pronuncia. Describir dos posturas sin sopesarlas deja la respuesta en una banda media."
+    }
+  ];
+
+  var S = {
+    banco: null,
+    db: null,
+    cloudOn: false,
+    cloudReady: Promise.resolve(),
+    abierto: true,
+    numPreguntas: 8,
+    nube: false,
+    nombre: "",
+    paralelo: "",
+    nombreKey: "",
+    seleccion: [],
+    respuestas: [],
+    idx: 0,
+    inicioMs: 0,
+    entry: null,
+    localEntregas: {},
+    cloudEntregas: {},
+    panelEntregas: [],
+    panelFiltradas: [],
+    confirmCb: null,
+    yaEntrego: false
+  };
+
+  function $(sel, ctx){ return (ctx || document).querySelector(sel); }
+  function $$(sel, ctx){ return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+
+  function esc(v){
+    return String(v == null ? "" : v)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  function normKey(s){
+    return String(s || "")
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^A-Za-z0-9 ]/g, " ")
+      .toUpperCase().replace(/\s+/g, " ").trim();
+  }
+
+  function clampInt(v, min, max, def){
+    var n = parseInt(v, 10);
+    if (isNaN(n)) n = def;
+    if (n < min) n = min;
+    if (n > max) n = max;
+    return n;
+  }
+
+  function lsGet(key, def){
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : def;
+    } catch (e) { return def; }
+  }
+  function lsSet(key, val){
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+  }
+  function lsDel(key){
+    try { localStorage.removeItem(key); } catch (e) {}
+  }
+
+  function shuffle(arr){
+    for (var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  function withTimeout(promise, ms, label){
+    return new Promise(function(resolve, reject){
+      var done = false;
+      var t = setTimeout(function(){
+        if (!done){ done = true; reject(new Error(label || "tiempo agotado")); }
+      }, ms);
+      promise.then(function(v){
+        if (!done){ done = true; clearTimeout(t); resolve(v); }
+      }, function(e){
+        if (!done){ done = true; clearTimeout(t); reject(e); }
+      });
+    });
+  }
+
+  function toast(msg){
+    var el = $("#toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function(){ el.classList.remove("show"); }, 3200);
+  }
+
+  function showScreen(name){
+    $$(".screen").forEach(function(s){ s.classList.remove("active"); });
+    var el = $("#s-" + name);
+    if (el) el.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /* ---------------- FIREBASE ---------------- */
+
+  function loadScript(src, ms){
+    return new Promise(function(resolve, reject){
+      var s = document.createElement("script");
+      s.src = src;
+      s.async = true;
+      var t = setTimeout(function(){
+        s.onload = s.onerror = null;
+        if (s.parentNode) s.parentNode.removeChild(s);
+        reject(new Error("tiempo agotado al cargar SDK"));
+      }, ms);
+      s.onload = function(){ clearTimeout(t); resolve(); };
+      s.onerror = function(){ clearTimeout(t); reject(new Error("no se pudo cargar el SDK")); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function initCloud(){
+    return loadScript(SDK_APP, 9000).then(function(){
+      return loadScript(SDK_DB, 9000);
+    }).then(function(){
+      if (!window.firebase || !firebase.database) throw new Error("SDK incompleto");
+      if (!firebase.apps || !firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+      S.db = firebase.database();
+      S.cloudOn = true;
+    }).catch(function(){
+      S.db = null;
+      S.cloudOn = false;
+    });
+  }
+
+  function fbGet(path, ms){
+    if (!S.db) return Promise.reject(new Error("sin nube"));
+    var p = new Promise(function(resolve, reject){
+      try {
+        S.db.ref(path).once("value").then(function(snap){
+          resolve(snap.val());
+        }, function(err){ reject(err); });
+      } catch (e) { reject(e); }
+    });
+    return withTimeout(p, ms || 5000, "tiempo de lectura agotado");
+  }
+
+  function fbSet(path, data, ms){
+    if (!S.db) return Promise.reject(new Error("sin nube"));
+    var p = new Promise(function(resolve, reject){
+      try {
+        S.db.ref(path).set(data, function(err){
+          if (err) reject(err); else resolve(true);
+        });
+      } catch (e) { reject(e); }
+    });
+    return withTimeout(p, ms || 7000, "tiempo de escritura agotado");
+  }
+
+  function fbPush(path, data, ms){
+    if (!S.db) return Promise.reject(new Error("sin nube"));
+    var p = new Promise(function(resolve, reject){
+      try {
+        var child = S.db.ref(path).push();
+        child.set(data, function(err){
+          if (err) reject(err); else resolve(child.key || null);
+        });
+      } catch (e) { reject(e); }
+    });
+    return withTimeout(p, ms || 7000, "tiempo de escritura agotado");
+  }
+
+  function fbRemove(path, ms){
+    if (!S.db) return Promise.reject(new Error("sin nube"));
+    var p = new Promise(function(resolve, reject){
+      try {
+        S.db.ref(path).remove(function(err){
+          if (err) reject(err); else resolve(true);
+        });
+      } catch (e) { reject(e); }
+    });
+    return withTimeout(p, ms || 7000, "tiempo de borrado agotado");
+  }
+
+  function loadCloudState(){
+    var cfgLocal = lsGet(LS_CFG, null);
+    if (cfgLocal){
+      S.abierto = cfgLocal.abierto !== false;
+      S.numPreguntas = clampInt(cfgLocal.numPreguntas, 4, 20, 8);
+    }
+    S.localEntregas = lsGet(LS_ENT, {}) || {};
+
+    if (!S.cloudOn || !S.db){
+      S.nube = false;
+      return Promise.resolve();
+    }
+
+    var cfgP = fbGet(ROOT + "/config", 5000).then(function(v){ return { ok: true, val: v }; }, function(){ return { ok: false }; });
+    var entP = fbGet(ROOT + "/entregas", 6000).then(function(v){ return { ok: true, val: v }; }, function(){ return { ok: false }; });
+
+    return Promise.all([cfgP, entP]).then(function(res){
+      var cfg = res[0], ent = res[1];
+      S.nube = cfg.ok || ent.ok;
+      if (cfg.ok && cfg.val && typeof cfg.val === "object"){
+        S.abierto = cfg.val.abierto !== false;
+        S.numPreguntas = clampInt(cfg.val.numPreguntas, 4, 20, 8);
+        lsSet(LS_CFG, { abierto: S.abierto, numPreguntas: S.numPreguntas });
+      }
+      if (ent.ok && ent.val && typeof ent.val === "object"){
+        S.cloudEntregas = ent.val;
+      }
+    });
+  }
+
+  /* ---------------- DATOS ---------------- */
+
+  function allEntregasMap(){
+    var map = {};
+    var local = S.localEntregas || {};
+    Object.keys(local).forEach(function(k){
+      var v = local[k];
+      if (!v) return;
+      var nk = normKey(v.nombreKey || v.nombre);
+      if (nk) map[nk] = Object.assign({}, v, { _key: "local:" + nk, _origen: "local" });
+    });
+    var cloud = S.cloudEntregas || {};
+    Object.keys(cloud).forEach(function(k){
+      var v = cloud[k];
+      if (!v) return;
+      var nk = normKey(v.nombreKey || v.nombre);
+      if (!nk) return;
+      map[nk] = Object.assign({}, v, { _key: k, _origen: "nube" });
+    });
+    return map;
+  }
+
+  function fmtFecha(iso){
+    if (!iso) return "Sin fecha";
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return String(iso);
+    try {
+      return d.toLocaleString("es-EC", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+    } catch (e) {
+      return d.toISOString().slice(0, 16).replace("T", " ");
+    }
+  }
+
+  /* ---------------- GUIA ---------------- */
+
+  function renderGuia(){
+    var cont = $("#guiaVerbos");
+    cont.innerHTML = VERBOS.map(function(v){
+      return '<div class="verb-card">' +
+        '<p class="marks">' + esc(v.marks) + '</p>' +
+        '<h3>' + esc(v.verbo) + '</h3>' +
+        '<p>' + esc(v.texto) + '</p>' +
+      '</div>';
+    }).join("");
+
+    function filas(bandas){
+      return bandas.map(function(b){
+        return "<tr><td><strong>" + esc(b.rango) + "</strong></td><td>" + esc(b.desc) + "</td></tr>";
+      }).join("");
+    }
+    $("#bandasDiez").innerHTML = filas(S.banco.bandas.diez);
+    $("#bandasQuince").innerHTML = filas(S.banco.bandas.quince);
+    $("#guiaN").textContent = String(S.numPreguntas);
+  }
+
+  /* ---------------- BIENVENIDA ---------------- */
+
+  function refreshWelcome(){
+    var startBtn = $("#btnComenzar");
+    var gate = $("#gateBanner");
+    var closed = $("#closedBanner");
+    var err = $("#welcomeErr");
+    var bancoOk = !!S.banco;
+
+    closed.classList.toggle("show", bancoOk && !S.abierto);
+
+    S.yaEntrego = false;
+    if (S.nombreKey){
+      var map = allEntregasMap();
+      S.yaEntrego = !!map[S.nombreKey];
+    }
+    if (S.yaEntrego){
+      gate.className = "banner show";
+      gate.textContent = "Ya registraste tu intento en esta actividad. Solo se permite una entrega por estudiante. Si crees que se trata de un error, avisa al docente.";
+    } else {
+      gate.className = "banner";
+      gate.textContent = "";
+    }
+
+    var bloqueado = !bancoOk || !S.nombre || !S.abierto || S.yaEntrego;
+    startBtn.disabled = bloqueado;
+
+    if (err && !err.classList.contains("show")){
+      err.textContent = "";
+    }
+
+    if (!bancoOk){
+      startBtn.textContent = "Comenzar";
+    } else if (!S.abierto){
+      startBtn.textContent = "Actividad cerrada";
+    } else if (!S.nombre){
+      startBtn.textContent = "Selecciona tu nombre para comenzar";
+    } else if (S.yaEntrego){
+      startBtn.textContent = "Intento ya registrado";
+    } else {
+      startBtn.textContent = "Comenzar";
+    }
+  }
+
+  function setStudent(){
+    var sel = $("#selNombre");
+    S.nombre = sel.value || "";
+    if (S.nombre){
+      var opt = sel.options[sel.selectedIndex];
+      S.paralelo = opt && opt.parentNode && opt.parentNode.tagName === "OPTGROUP" ? opt.parentNode.label : "";
+      S.nombreKey = normKey(S.nombre);
+      $("#headerPill").textContent = S.paralelo ? (S.paralelo + " · examinador") : "Rol: examinador";
+    } else {
+      S.paralelo = "";
+      S.nombreKey = "";
+      $("#headerPill").textContent = "Rol: examinador";
+    }
+    refreshWelcome();
+  }
+
+  /* ---------------- CALIBRACION ---------------- */
+
+  function bandasPara(max){
+    return max === 15 ? S.banco.bandas.quince : S.banco.bandas.diez;
+  }
+
+  function buildSelection(){
+    var n = clampInt(S.numPreguntas, 4, 20, 8);
+    var pool = shuffle(S.banco.items.slice());
+    if (n > pool.length) n = pool.length;
+    S.seleccion = pool.slice(0, n);
+  }
+
+  function renderItem(){
+    var it = S.seleccion[S.idx];
+    var r = S.respuestas[S.idx] || { banda: "", nota: null, marcas: [] };
+    var max = it.puntaje_max;
+    var bandas = bandasPara(max);
+    var total = S.seleccion.length;
+    var pct = Math.round(((S.idx + 1) / total) * 100);
+
+    $("#calibMeta").textContent = "Ítem " + (S.idx + 1) + " de " + total;
+    $("#calibTema").textContent = it.unidad + " · " + it.tema;
+    $("#calibProgress").style.width = pct + "%";
+
+    var opcionesBanda = '<option value="">Elige una banda</option>' + bandas.map(function(b){
+      return '<option value="' + esc(b.rango) + '"' + (r.banda === b.rango ? " selected" : "") +
+        ' title="' + esc(b.desc) + '">' + esc(b.rango) + '</option>';
+    }).join("");
+
+    var checkbox = it.esquema.map(function(p, i){
+      var checked = r.marcas && r.marcas.indexOf(i) !== -1 ? " checked" : "";
+      return '<label class="esq"><input type="checkbox" data-esq="' + i + '"' + checked + '><span>' + esc(p) + '</span></label>';
+    }).join("");
+
+    var notaVal = r.nota == null ? "" : String(r.nota);
+    var rangeVal = r.nota == null ? 0 : r.nota;
+
+    $("#calibBody").innerHTML =
+      '<div class="chips">' +
+        '<span class="chip">' + esc(it.verbo) + '</span>' +
+        '<span class="chip gold">Puntaje máximo: ' + esc(max) + '</span>' +
+        '<span class="chip">' + esc(it.unidad) + '</span>' +
+      '</div>' +
+      '<h2 class="consigna">' + esc(it.consigna) + '</h2>' +
+      '<p class="small">Lee la respuesta del estudiante y califícala como lo haría un examinador del IB.</p>' +
+      '<h3 style="margin-top:18px">Respuesta del estudiante</h3>' +
+      '<div class="reading">' + esc(it.respuesta_estudiante) + '</div>' +
+      '<h3 style="margin-top:20px">Esquema de calificación</h3>' +
+      '<p class="small">Marca los puntos que la respuesta cumple. No es necesario marcarlos todos.</p>' +
+      '<fieldset class="esqlist"><legend class="sr-only">Puntos del esquema de calificación</legend>' + checkbox + '</fieldset>' +
+      '<div class="gradebox">' +
+        '<div>' +
+          '<label for="bandaSel">Banda</label>' +
+          '<select id="bandaSel">' + opcionesBanda + '</select>' +
+        '</div>' +
+        '<div>' +
+          '<label for="notaNum">Nota concreta (0 a ' + esc(max) + ')</label>' +
+          '<input type="number" id="notaNum" min="0" max="' + esc(max) + '" step="1" inputmode="numeric" value="' + esc(notaVal) + '" placeholder="Escribe la nota">' +
+        '</div>' +
+        '<div class="wide">' +
+          '<label for="notaRange">Ajuste rápido de la nota</label>' +
+          '<input type="range" id="notaRange" min="0" max="' + esc(max) + '" step="1" value="' + esc(rangeVal) + '">' +
+        '</div>' +
+        '<div class="gradehint" id="gradeHint">Sin calificación todavía.</div>' +
+      '</div>' +
+      '<div class="err" id="itemErr"></div>' +
+      '<div class="btn-row">' +
+        '<button class="btn green" id="btnNext" disabled>' + (S.idx === total - 1 ? "Finalizar y ver resultado" : "Siguiente") + '</button>' +
+        '<span class="small">No hay temporizador. Revisa la respuesta con calma.</span>' +
+      '</div>';
+
+    $("#bandaSel").addEventListener("change", updateNext);
+    $("#notaNum").addEventListener("input", function(){
+      var v = this.value.trim();
+      if (v !== "" && !isNaN(Number(v))){
+        var n = Math.max(0, Math.min(max, Math.round(Number(v))));
+        $("#notaRange").value = String(n);
+      }
+      updateNext();
+    });
+    $("#notaNum").addEventListener("blur", function(){
+      var v = this.value.trim();
+      if (v === "") return;
+      var n = Number(v);
+      if (isNaN(n)){ this.value = ""; return; }
+      n = Math.max(0, Math.min(max, Math.round(n)));
+      this.value = String(n);
+      $("#notaRange").value = String(n);
+      updateNext();
+    });
+    $("#notaRange").addEventListener("input", function(){
+      $("#notaNum").value = this.value;
+      updateNext();
+    });
+    $$('input[data-esq]').forEach(function(cb){
+      cb.addEventListener("change", updateNext);
+    });
+    $("#btnNext").addEventListener("click", nextItem);
+    updateNext();
+  }
+
+  function updateNext(){
+    var max = S.seleccion[S.idx].puntaje_max;
+    var banda = $("#bandaSel") ? $("#bandaSel").value : "";
+    var raw = $("#notaNum") ? $("#notaNum").value.trim() : "";
+    var num = Number(raw);
+    var ok = banda !== "" && raw !== "" && !isNaN(num) && num >= 0 && num <= max;
+    var btn = $("#btnNext");
+    if (btn) btn.disabled = !ok;
+
+    var hint = $("#gradeHint");
+    if (hint){
+      if (banda === "" && raw === "") hint.textContent = "Sin calificación todavía.";
+      else if (banda === "") hint.textContent = "Falta elegir la banda.";
+      else if (raw === "") hint.textContent = "Falta fijar la nota concreta.";
+      else if (isNaN(num) || num < 0 || num > max) hint.textContent = "La nota debe estar entre 0 y " + max + ".";
+      else hint.textContent = "Tu calificación: banda " + banda + ", nota " + Math.round(num) + " de " + max + ".";
+    }
+
+    var err = $("#itemErr");
+    if (err) err.classList.remove("show");
+  }
+
+  function nextItem(){
+    var max = S.seleccion[S.idx].puntaje_max;
+    var banda = $("#bandaSel").value;
+    var raw = $("#notaNum").value.trim();
+    var num = Number(raw);
+    var err = $("#itemErr");
+
+    if (banda === ""){
+      err.textContent = "Elige una banda antes de continuar.";
+      err.classList.add("show");
+      return;
+    }
+    if (raw === "" || isNaN(num)){
+      err.textContent = "Escribe la nota concreta antes de continuar.";
+      err.classList.add("show");
+      return;
+    }
+    num = Math.max(0, Math.min(max, Math.round(num)));
+    $("#notaNum").value = String(num);
+
+    var marcas = $$('input[data-esq]').filter(function(c){ return c.checked; })
+      .map(function(c){ return parseInt(c.getAttribute("data-esq"), 10); });
+
+    S.respuestas[S.idx] = { banda: banda, nota: num, marcas: marcas };
+
+    if (S.idx < S.seleccion.length - 1){
+      S.idx += 1;
+      renderItem();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      finalize();
+    }
+  }
+
+  function finalize(){
+    var total = S.seleccion.length;
+    var suma = 0;
+    var exactas = 0;
+    var detalles = S.seleccion.map(function(it, i){
+      var r = S.respuestas[i] || { banda: "", nota: 0, marcas: [] };
+      var notaEst = Number(r.nota);
+      var notaOf = Number(it.nota_oficial);
+      var diff = Math.abs(Math.round((notaEst - notaOf) * 10) / 10);
+      var puntos = diff === 0 ? 2 : (diff === 1 ? 1 : 0);
+      suma += puntos;
+      if (diff === 0) exactas += 1;
+      return {
+        id: it.id,
+        verbo: it.verbo,
+        notaEst: notaEst,
+        notaOf: notaOf,
+        diff: diff,
+        banda: r.banda || "",
+        bandaOf: it.banda_oficial
+      };
+    });
+
+    var nota = Math.round((suma / (2 * total)) * 10 * 10) / 10;
+    var durSeg = Math.max(1, Math.round((Date.now() - S.inicioMs) / 1000));
+
+    S.entry = {
+      nombre: S.nombre,
+      paralelo: S.paralelo,
+      nombreKey: S.nombreKey,
+      nota: nota,
+      exactas: exactas,
+      total: total,
+      detalles: detalles,
+      fecha: new Date().toISOString(),
+      durSeg: durSeg
+    };
+
+    renderResult(S.entry);
+    showScreen("result");
+    saveEntry(S.entry);
+  }
+
+  function renderResult(entry){
+    var total = entry.total;
+    var pct = total ? Math.round((entry.exactas / total) * 100) : 0;
+
+    $("#resNota").textContent = Number(entry.nota).toFixed(1);
+    $("#resNombre").textContent = entry.nombre + (entry.paralelo ? " · " + entry.paralelo : "");
+    $("#resResumen").textContent = "Coincidencias exactas: " + entry.exactas + " de " + total + " (" + pct + "%).";
+    $("#resDetalle").textContent = "Duración de la calibración: " + Math.round(entry.durSeg / 60) + " min aproximadamente. Un solo intento por estudiante.";
+    $("#saveBanner").textContent = "Guardando el resultado...";
+
+    $("#resTabla").innerHTML = entry.detalles.map(function(d){
+      var it = null;
+      for (var i = 0; i < S.seleccion.length; i++){
+        if (S.seleccion[i].id === d.id){ it = S.seleccion[i]; break; }
+      }
+      var diffClass = d.diff === 0 ? "zero" : (d.diff === 1 ? "one" : "two");
+      var diffTxt = d.diff === 0 ? "0 (exacta)" : String(d.diff);
+      var consigna = it ? it.consigna : d.id;
+      var just = it ? it.justificacion : "";
+      return "<tr>" +
+        "<td>" + esc(consigna) +
+          (just ? '<details class="just"><summary>Justificación del examinador</summary><p>' + esc(just) + "</p></details>" : "") +
+        "</td>" +
+        "<td>" + esc(d.verbo) + "</td>" +
+        "<td>" + esc(d.banda || "Sin banda") + "</td>" +
+        '<td class="num">' + esc(d.notaEst) + "</td>" +
+        '<td class="num">' + esc(d.notaOf) + "</td>" +
+        '<td class="num"><span class="tag-diff ' + diffClass + '">' + esc(diffTxt) + "</span></td>" +
+        "<td>" + esc(d.bandaOf) + "</td>" +
+      "</tr>";
+    }).join("");
+
+    var porVerbo = {};
+    entry.detalles.forEach(function(d){
+      if (!porVerbo[d.verbo]) porVerbo[d.verbo] = { total: 0, exactas: 0 };
+      porVerbo[d.verbo].total += 1;
+      if (d.diff === 0) porVerbo[d.verbo].exactas += 1;
+    });
+
+    var verbos = Object.keys(porVerbo);
+    $("#resVerbos").innerHTML = verbos.map(function(v){
+      var info = porVerbo[v];
+      var p = Math.round((info.exactas / info.total) * 100);
+      return '<div class="prow"><span>' + esc(v) + '</span>' +
+        '<div class="bar"><i style="width:' + p + '%"></i></div>' +
+        '<span>' + info.exactas + " de " + info.total + "</span></div>" +
+        '<p class="pnote">' + p + "% de coincidencia exacta</p>";
+    }).join("") || '<p class="small">Sin datos.</p>';
+
+    $("#printHead").innerHTML =
+      "<h2>Evaluador IB · Paper 1 (Economía NM)</h2>" +
+      "<p><strong>Estudiante:</strong> " + esc(entry.nombre) + " · " + esc(entry.paralelo) + "</p>" +
+      "<p><strong>Nota de calibración:</strong> " + Number(entry.nota).toFixed(1) + " de 10 · " +
+      "<strong>Coincidencias exactas:</strong> " + entry.exactas + " de " + entry.total + " · " +
+      "<strong>Fecha:</strong> " + esc(fmtFecha(entry.fecha)) + "</p>";
+  }
+
+  function saveEntry(entry){
+    var local = lsGet(LS_ENT, {}) || {};
+    local[entry.nombreKey] = entry;
+    lsSet(LS_ENT, local);
+    S.localEntregas = local;
+
+    if (!S.cloudOn || !S.db){
+      $("#saveBanner").textContent = "Resultado guardado en este dispositivo. La nube no estaba disponible; el docente puede recuperarlo desde el panel.";
+      return;
+    }
+
+    fbPush(ROOT + "/entregas", entry).then(function(key){
+      $("#saveBanner").textContent = "Resultado guardado. Ya quedó registrado tu intento.";
+      if (!S.cloudEntregas) S.cloudEntregas = {};
+      S.cloudEntregas[key || ("local_" + Date.now())] = entry;
+    }).catch(function(){
+      $("#saveBanner").textContent = "Resultado guardado en este dispositivo. La nube no respondió; el docente puede recuperarlo desde el panel.";
+    });
+  }
+
+  /* ---------------- PANEL DOCENTE ---------------- */
+
+  function openModal(id){
+    var el = document.getElementById(id);
+    if (el) el.hidden = false;
+  }
+  function closeModal(id){
+    var el = document.getElementById(id);
+    if (el) el.hidden = true;
+  }
+
+  function openLogin(){
+    $("#inpClave").value = "";
+    $("#loginErr").classList.remove("show");
+    openModal("mLogin");
+    setTimeout(function(){ $("#inpClave").focus(); }, 30);
+  }
+
+  function tryLogin(){
+    var val = $("#inpClave").value;
+    if (val === DOCENTE_CLAVE){
+      closeModal("mLogin");
+      openPanel();
+    } else {
+      var e = $("#loginErr");
+      e.textContent = "Clave incorrecta. Verifica con el docente.";
+      e.classList.add("show");
+      $("#inpClave").select();
+    }
+  }
+
+  function openPanel(){
+    openModal("mPanel");
+    panelLoad();
+  }
+
+  function panelLoad(){
+    $("#panelCloud").textContent = "Consultando la nube...";
+    $("#panelEstado").textContent = "Consultando...";
+    $("#panelTbody").innerHTML = '<tr><td colspan="6" class="small">Cargando entregas...</td></tr>';
+    $("#panelCount").textContent = "";
+
+    var cfgP = Promise.resolve({ ok: false });
+    var entP = Promise.resolve({ ok: false });
+
+    if (S.cloudOn && S.db){
+      cfgP = fbGet(ROOT + "/config", 4500).then(function(v){ return { ok: true, val: v }; }, function(){ return { ok: false }; });
+      entP = fbGet(ROOT + "/entregas", 6000).then(function(v){ return { ok: true, val: v }; }, function(){ return { ok: false }; });
+    }
+
+    Promise.all([cfgP, entP]).then(function(res){
+      var cfg = res[0], ent = res[1];
+      var nubeOk = cfg.ok || ent.ok;
+      S.nube = nubeOk;
+
+      if (cfg.ok && cfg.val && typeof cfg.val === "object"){
+        S.abierto = cfg.val.abierto !== false;
+        S.numPreguntas = clampInt(cfg.val.numPreguntas, 4, 20, 8);
+        lsSet(LS_CFG, { abierto: S.abierto, numPreguntas: S.numPreguntas });
+      }
+      if (ent.ok){
+        S.cloudEntregas = (ent.val && typeof ent.val === "object") ? ent.val : {};
+      }
+
+      S.localEntregas = lsGet(LS_ENT, {}) || {};
+
+      var cloudCount = Object.keys(S.cloudEntregas || {}).length;
+      var localCount = Object.keys(S.localEntregas || {}).length;
+
+      if (nubeOk){
+        $("#panelCloud").textContent = "Datos leídos de la nube. Entregas en la nube: " + cloudCount +
+          ". Guardadas en este dispositivo: " + localCount + "." +
+          (ent.ok ? "" : " No se pudieron leer las entregas de la nube.");
+      } else if (S.cloudOn){
+        $("#panelCloud").textContent = "La nube no respondió. Se muestran los datos guardados en este dispositivo.";
+      } else {
+        $("#panelCloud").textContent = "Sin conexión con la nube. Se muestran los datos guardados en este dispositivo.";
+      }
+
+      $("#panelEstado").textContent = S.abierto ? "Abierta" : "Cerrada";
+      $("#btnToggleOpen").textContent = S.abierto ? "Cerrar actividad" : "Abrir actividad";
+      $("#cfgNum").value = String(S.numPreguntas);
+
+      var map = allEntregasMap();
+      S.panelEntregas = Object.keys(map).map(function(k){ return map[k]; });
+      S.panelEntregas.sort(function(a, b){
+        return String(b.fecha || "").localeCompare(String(a.fecha || ""));
+      });
+
+      applyPanelFilters();
+      refreshWelcome();
+    });
+  }
+
+  function applyPanelFilters(){
+    var txt = ($("#fTexto").value || "").trim().toLowerCase();
+    var par = $("#fParalelo").value || "";
+
+    S.panelFiltradas = S.panelEntregas.filter(function(e){
+      if (par && e.paralelo !== par) return false;
+      if (txt && String(e.nombre || "").toLowerCase().indexOf(txt) === -1) return false;
+      return true;
+    });
+
+    renderPanelTable();
+  }
+
+  function renderPanelTable(){
+    var tbody = $("#panelTbody");
+    if (!S.panelFiltradas.length){
+      tbody.innerHTML = '<tr><td colspan="6" class="small">No hay entregas registradas con este filtro.</td></tr>';
+    } else {
+      tbody.innerHTML = S.panelFiltradas.map(function(e, i){
+        var detalles = e.detalles || [];
+        var sub = detalles.map(function(d){
+          return "<tr><td>" + esc(d.id) + "</td><td>" + esc(d.verbo) + "</td>" +
+            '<td class="num">' + esc(d.notaEst) + '</td><td class="num">' + esc(d.notaOf) + "</td>" +
+            '<td class="num">' + esc(d.diff) + "</td></tr>";
+        }).join("");
+        var origen = e._origen === "local" ? " (guardado local)" : "";
+        return "<tr>" +
+          "<td>" + esc(e.nombre) + origen + "</td>" +
+          "<td>" + esc(e.paralelo) + "</td>" +
+          '<td class="num">' + Number(e.nota).toFixed(1) + "</td>" +
+          '<td class="num">' + esc(e.exactas) + " de " + esc(e.total) + "</td>" +
+          "<td>" + esc(fmtFecha(e.fecha)) + "</td>" +
+          '<td><button class="btn tiny ghost" data-detalle="' + i + '">Ver desglose</button></td>' +
+        "</tr>" +
+        '<tr class="detailrow" id="detrow-' + i + '" hidden><td colspan="6">' +
+          '<div class="tablewrap"><table class="tbl"><thead><tr><th>Ítem</th><th>Verbo</th><th>Nota estudiante</th><th>Nota oficial</th><th>Diferencia</th></tr></thead><tbody>' +
+          (sub || '<tr><td colspan="5" class="small">Sin detalles.</td></tr>') +
+          "</tbody></table></div>" +
+        "</td></tr>";
+      }).join("");
+
+      $$("button[data-detalle]").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          var i = this.getAttribute("data-detalle");
+          var row = document.getElementById("detrow-" + i);
+          if (!row) return;
+          var oculto = row.hasAttribute("hidden");
+          if (oculto){ row.removeAttribute("hidden"); this.textContent = "Ocultar desglose"; }
+          else { row.setAttribute("hidden", ""); this.textContent = "Ver desglose"; }
+        });
+      });
+    }
+
+    $("#panelCount").textContent = S.panelFiltradas.length + " de " + S.panelEntregas.length + " entregas.";
+  }
+
+  function toggleOpen(){
+    var nuevo = !S.abierto;
+    S.abierto = nuevo;
+    lsSet(LS_CFG, { abierto: S.abierto, numPreguntas: S.numPreguntas });
+    $("#panelEstado").textContent = S.abierto ? "Abierta" : "Cerrada";
+    $("#btnToggleOpen").textContent = S.abierto ? "Cerrar actividad" : "Abrir actividad";
+    refreshWelcome();
+
+    if (!S.cloudOn || !S.db){
+      toast("Estado guardado en este dispositivo. Sin conexión con la nube.");
+      return;
+    }
+    fbSet(ROOT + "/config", {
+      abierto: S.abierto,
+      numPreguntas: S.numPreguntas,
+      updatedAt: new Date().toISOString()
+    }).then(function(){
+      toast(S.abierto ? "Actividad abierta." : "Actividad cerrada.");
+    }).catch(function(){
+      toast("No se pudo guardar en la nube. Se guardó localmente.");
+    });
+  }
+
+  function saveNumPreguntas(){
+    var n = clampInt($("#cfgNum").value, 4, 20, 8);
+    $("#cfgNum").value = String(n);
+    S.numPreguntas = n;
+    lsSet(LS_CFG, { abierto: S.abierto, numPreguntas: S.numPreguntas });
+    $("#guiaN").textContent = String(S.numPreguntas);
+    $("#cfgNumMsg").textContent = "Guardado: " + n + " preguntas.";
+
+    if (!S.cloudOn || !S.db){
+      toast("Número guardado en este dispositivo. Sin conexión con la nube.");
+      return;
+    }
+    fbSet(ROOT + "/config", {
+      abierto: S.abierto,
+      numPreguntas: S.numPreguntas,
+      updatedAt: new Date().toISOString()
+    }).then(function(){
+      toast("Número de preguntas guardado en la nube.");
+    }).catch(function(){
+      toast("No se pudo guardar en la nube. Se guardó localmente.");
+    });
+  }
+
+  function csvCampo(v){
+    var s = String(v == null ? "" : v);
+    if (/[",\r\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  }
+
+  function exportCsv(){
+    var filas = S.panelFiltradas;
+    if (!filas.length){
+      toast("No hay entregas para exportar con el filtro actual.");
+      return;
+    }
+    var lineas = [["Nombre", "Paralelo", "Nota", "Exactas", "Total", "Fecha"].map(csvCampo).join(",")];
+    filas.forEach(function(e){
+      lineas.push([
+        e.nombre,
+        e.paralelo,
+        Number(e.nota).toFixed(1),
+        e.exactas,
+        e.total,
+        e.fecha || ""
+      ].map(csvCampo).join(","));
+    });
+    var contenido = "\uFEFF" + lineas.join("\r\n") + "\r\n";
+    var blob = new Blob([contenido], { type: "text/csv;charset=utf-8;" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "entregas-evaluador-paper1-2bgu.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+  }
+
+  function askConfirm(msg, cb){
+    S.confirmCb = cb;
+    $("#confirmMsg").textContent = msg;
+    openModal("mConfirm");
+  }
+
+  function deleteAll(){
+    askConfirm("Se eliminarán todas las entregas de esta actividad, tanto en la nube como en este dispositivo. Esta acción no se puede deshacer.", function(){
+      closeModal("mConfirm");
+      lsDel(LS_ENT);
+      S.localEntregas = {};
+      S.cloudEntregas = {};
+      S.panelEntregas = [];
+      S.panelFiltradas = [];
+
+      var borrarLocal = function(){
+        renderPanelTable();
+        $("#panelCount").textContent = "0 entregas.";
+        panelLoad();
+        refreshWelcome();
+      };
+
+      if (!S.cloudOn || !S.db){
+        borrarLocal();
+        toast("Entregas locales eliminadas. Sin conexión con la nube.");
+        return;
+      }
+      fbRemove(ROOT + "/entregas").then(function(){
+        borrarLocal();
+        toast("Todas las entregas fueron eliminadas.");
+      }).catch(function(){
+        borrarLocal();
+        toast("Se borraron las entregas locales, pero la nube no confirmó el borrado. Revisa la conexión.");
+      });
+    });
+  }
+
+  /* ---------------- EVENTOS ---------------- */
+
+  function bind(){
+    $("#selNombre").addEventListener("change", setStudent);
+    $("#btnComenzar").addEventListener("click", startActivity);
+
+    $("#btnContinuarGuia").addEventListener("click", function(){
+      S.inicioMs = Date.now();
+      S.idx = 0;
+      S.respuestas = S.seleccion.map(function(){ return { banda: "", nota: null, marcas: [] }; });
+      renderItem();
+      showScreen("calib");
+    });
+
+    $("#btnPrint").addEventListener("click", function(){
+      var tituloOriginal = document.title;
+      document.title = "Evaluador IB Paper 1 — " + (S.nombre || "estudiante") + ".pdf";
+      $$("#s-result details").forEach(function(d){ d.open = true; });
+      window.print();
+      setTimeout(function(){ document.title = tituloOriginal; }, 800);
+    });
+
+    $("#btnTeacherLink").addEventListener("click", openLogin);
+    $("#btnLoginOk").addEventListener("click", tryLogin);
+    $("#btnLoginCancel").addEventListener("click", function(){ closeModal("mLogin"); });
+    $("#inpClave").addEventListener("keydown", function(ev){
+      if (ev.key === "Enter"){ ev.preventDefault(); tryLogin(); }
+    });
+
+    $("#btnPanelClose").addEventListener("click", function(){ closeModal("mPanel"); });
+    $("#btnToggleOpen").addEventListener("click", toggleOpen);
+    $("#btnSaveNum").addEventListener("click", saveNumPreguntas);
+    $("#btnRefresh").addEventListener("click", panelLoad);
+    $("#fTexto").addEventListener("input", applyPanelFilters);
+    $("#fParalelo").addEventListener("change", applyPanelFilters);
+    $("#btnCsv").addEventListener("click", exportCsv);
+    $("#btnDeleteAll").addEventListener("click", deleteAll);
+
+    $("#btnConfirmOk").addEventListener("click", function(){
+      var cb = S.confirmCb;
+      S.confirmCb = null;
+      if (cb) cb();
+      else closeModal("mConfirm");
+    });
+    $("#btnConfirmCancel").addEventListener("click", function(){
+      S.confirmCb = null;
+      closeModal("mConfirm");
+    });
+
+    document.addEventListener("keydown", function(ev){
+      if (ev.key === "Escape"){
+        closeModal("mLogin");
+        closeModal("mConfirm");
+      }
+    });
+
+    $("#cfgNum").addEventListener("keydown", function(ev){
+      if (ev.key === "Enter"){ ev.preventDefault(); saveNumPreguntas(); }
+    });
+  }
+
+  function startActivity(){
+    var err = $("#welcomeErr");
+    err.classList.remove("show");
+    err.textContent = "";
+
+    if (!S.nombre){
+      err.textContent = "Selecciona tu nombre de la lista.";
+      err.classList.add("show");
+      return;
+    }
+
+    var btn = $("#btnComenzar");
+    var textoOriginal = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Verificando intento...";
+
+    S.cloudReady.then(function(){
+      refreshWelcome();
+      if (!S.abierto){
+        btn.textContent = "Actividad cerrada";
+        err.textContent = "La actividad está cerrada por el docente.";
+        err.classList.add("show");
+        return;
+      }
+      if (S.yaEntrego){
+        btn.textContent = "Intento ya registrado";
+        err.textContent = "Ya existe una entrega con tu nombre. Solo se permite un intento.";
+        err.classList.add("show");
+        return;
+      }
+      buildSelection();
+      S.inicioMs = Date.now();
+      S.idx = 0;
+      S.respuestas = [];
+      S.entry = null;
+      $("#guiaN").textContent = String(S.seleccion.length);
+      showScreen("guia");
+      btn.textContent = textoOriginal;
+      refreshWelcome();
+    });
+  }
+
+  /* ---------------- ARRANQUE ---------------- */
+
+  function boot(){
+    bind();
+    refreshWelcome();
+
+    var bancoP = fetch("./banco_items.json", { cache: "no-store" }).then(function(r){
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    }).then(function(data){
+      if (!data || !data.items || !data.bandas) throw new Error("formato inesperado");
+      S.banco = data;
+      renderGuia();
+      refreshWelcome();
+      $("#welcomeCount").textContent = "Banco disponible: " + data.items.length + " respuestas de ejemplo.";
+    }).catch(function(e){
+      var b = $("#bootBanner");
+      b.className = "banner show";
+      b.textContent = "No se pudo cargar el banco de ítems (" + (e.message || "error") + "). Abre la aplicación desde la dirección que indicó el docente, no desde el archivo local.";
+      $("#btnComenzar").disabled = true;
+      $("#btnComenzar").textContent = "Sin banco de ítems";
+    });
+
+    S.cloudReady = initCloud().then(function(){
+      return loadCloudState();
+    }).then(function(){
+      refreshWelcome();
+    }).catch(function(){
+      refreshWelcome();
+    });
+
+    return bancoP;
+  }
+
+  boot();
+})();
+</script>
+</body>
+</html>
